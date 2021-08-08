@@ -1,20 +1,20 @@
 import * as PatcherBase from './base';
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const patch = (name, imgUrl, forIds, clickHandler = (() => {}), { round = false } = {}) => {
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
-  const Tooltip = goosemodScope.webpackModules.findByDisplayName('Tooltip');
-  const Clickable = goosemodScope.webpackModules.findByDisplayName('Clickable');
+  const Tooltip = hypercordScope.webpackModules.findByDisplayName('Tooltip');
+  const Clickable = hypercordScope.webpackModules.findByDisplayName('Clickable');
 
-  const BadgeClasses = goosemodScope.webpackModules.findByProps('profileBadge24', 'profileBadge22');
+  const BadgeClasses = hypercordScope.webpackModules.findByProps('profileBadge24', 'profileBadge22');
 
-  const UserProfileBadgeList = goosemodScope.webpackModules.find((m) => m.default && m.default.displayName === 'UserProfileBadgeList');
+  const UserProfileBadgeList = hypercordScope.webpackModules.find((m) => m.default && m.default.displayName === 'UserProfileBadgeList');
   
   return PatcherBase.patch(UserProfileBadgeList, 'default', ([ { user, size } ], res) => {
     if (!forIds().includes(user.id)) return res;

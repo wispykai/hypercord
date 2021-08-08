@@ -7,14 +7,14 @@ export default () => {
   const changelog = genChangelog();
 
   return {
-    name: 'goosemod',
+    name: 'Hypercord',
 
     renderChunk: async (code) => {
       const commitHash = await new Promise((res) => exec(`git rev-parse HEAD`, (_err, stdout) => res(stdout.trim())));
 
       return code
         .replace('<changelog>', changelog)
-        .replace('<hash>', commitHash) + '//# sourceURL=GooseMod';
+        .replace('<hash>', commitHash) + '//# sourceURL=Hypercord';
     }
   }
 };

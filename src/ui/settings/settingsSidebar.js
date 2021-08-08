@@ -1,19 +1,19 @@
-export default (goosemodScope, gmSettings) => {
-  const SettingsView = goosemodScope.webpackModules.findByDisplayName('SettingsView');
+export default (hypercordScope, gmSettings) => {
+  const SettingsView = hypercordScope.webpackModules.findByDisplayName('SettingsView');
 
-  const Text = goosemodScope.webpackModules.findByDisplayName('Text');
-  const VersionClasses = goosemodScope.webpackModules.findByProps('versionHash', 'line');
+  const Text = hypercordScope.webpackModules.findByDisplayName('Text');
+  const VersionClasses = hypercordScope.webpackModules.findByProps('versionHash', 'line');
 
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
   
-  goosemodScope.settingsUninjects.push(goosemodScope.patcher.patch(SettingsView.prototype, 'getPredicateSections', (_, sections) => {
+  hypercordScope.settingsUninjects.push(hypercordScope.patcher.patch(SettingsView.prototype, 'getPredicateSections', (_, sections) => {
     const logout = sections.find((c) => c.section === 'logout');
     if (!logout) return sections;
     
     sections.splice(
       sections.indexOf(logout), 0,
       
-      ...goosemodScope.settings.items.filter((x) => (gmSettings.get().home ? x[1] !== goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins && x[1] !== goosemodScope.i18n.goosemodStrings.settings.itemNames.themes && x[1] !== 'Snippets': true) && (gmSettings.get().snippets ? x[1] !== 'Snippets' : true)).map((i) => {
+      ...hypercordScope.settings.items.filter((x) => (gmSettings.get().home ? x[1] !== hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins && x[1] !== hypercordScope.i18n.hypercordStrings.settings.itemNames.themes && x[1] !== 'Snippets': true) && (gmSettings.get().snippets ? x[1] !== 'Snippets' : true)).map((i) => {
         switch (i[0]) {
           case 'item':
           let obj = {
@@ -32,7 +32,7 @@ export default (goosemodScope, gmSettings) => {
               const settingsLayerEl = document.querySelector('div[aria-label="USER_SETTINGS"]');
               const settingsSidebarEl = settingsLayerEl.querySelector('nav > div');
               
-              if (i[1] === goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins || i[1] === goosemodScope.i18n.goosemodStrings.settings.itemNames.themes || i[1] === 'Snippets') { // Settings expansion for Store panel
+              if (i[1] === hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins || i[1] === hypercordScope.i18n.hypercordStrings.settings.itemNames.themes || i[1] === 'Snippets') { // Settings expansion for Store panel
                 setTimeout(() => {
                   document.querySelector('.sidebarRegion-VFTUkN').style.maxWidth = '218px';
                   document.querySelector('.contentColumnDefault-1VQkGM').style.maxWidth = 'calc(100vw - 218px - 60px - 20px)';
@@ -40,14 +40,14 @@ export default (goosemodScope, gmSettings) => {
                 
                 settingsSidebarEl.addEventListener('click', (e) => {
                   if (e.clientX === 0 // <el>.click() - not an actual user click - as it has no mouse position coords (0, 0)
-                  || e.target.textContent === goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins || e.target.textContent === goosemodScope.i18n.goosemodStrings.settings.itemNames.themes || e.target.textContent === 'Snippets') return;  // Clicking on Store when already in it should not break resizing
+                  || e.target.textContent === hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins || e.target.textContent === hypercordScope.i18n.hypercordStrings.settings.itemNames.themes || e.target.textContent === 'Snippets') return;  // Clicking on Store when already in it should not break resizing
                   
                   document.querySelector('.sidebarRegion-VFTUkN').style.maxWidth = '50%';
                   document.querySelector('.contentColumnDefault-1VQkGM').style.maxWidth = '740px';
                 });
               }
               
-              return goosemodScope.settings._createItem(i[1], i[2]);
+              return hypercordScope.settings._createItem(i[1], i[2]);
             }
           };
           if (i[4]) obj.color = '#f04747';
@@ -88,10 +88,10 @@ export default (goosemodScope, gmSettings) => {
             color: Text.Colors.MUTED,
             tag: 'span'
           },
-            'GooseMod', ' ', goosemodScope.versioning.version, ' ',
+            'hypercord', ' ', hypercordScope.versioning.version, ' ',
             React.createElement('span', {
               className: VersionClasses.versionHash
-            }, '(', goosemodScope.versioning.hash.substring(0, 7), ')')
+            }, '(', hypercordScope.versioning.hash.substring(0, 7), ')')
           ),
 
           React.createElement(Text, {
@@ -100,7 +100,7 @@ export default (goosemodScope, gmSettings) => {
             color: Text.Colors.MUTED,
             tag: 'span'
           },
-            'GooseMod Ext', ' ', window.gmExtension
+            'hypercord Ext', ' ', window.gmExtension
           ),
 
           React.createElement(Text, {
@@ -109,7 +109,7 @@ export default (goosemodScope, gmSettings) => {
             color: Text.Colors.MUTED,
             tag: 'span'
           },
-            'GM Storage', ' ', goosemodScope.storage.type
+            'GM Storage', ' ', hypercordScope.storage.type
           )
         )
       }

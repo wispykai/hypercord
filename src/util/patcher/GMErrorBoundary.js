@@ -1,12 +1,12 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const Header = goosemod.webpackModules.findByDisplayName('Header');
-const Button = goosemod.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
+const Header = hypercord.webpackModules.findByDisplayName('Header');
+const Button = hypercord.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
 
-const Markdown = goosemod.webpackModules.findByDisplayName('Markdown');
+const Markdown = hypercord.webpackModules.findByDisplayName('Markdown');
 
-const DropdownArrow = goosemod.webpackModules.findByDisplayName('DropdownArrow');
+const DropdownArrow = hypercord.webpackModules.findByDisplayName('DropdownArrow');
 
 return class GMErrorBoundary extends React.PureComponent {
   constructor(props) {
@@ -24,7 +24,7 @@ return class GMErrorBoundary extends React.PureComponent {
     const componentStack = decodeURI(moreInfo.componentStack.split('\n').slice(1, 9).join('\n'));
 
     const suspectedPlugin = errorStack.match(/\((.*) \| GM Module:/)?.[1] || componentStack.match(/\((.*) \| GM Module:/)?.[1];
-    const suspectedName = suspectedPlugin || ((errorStack.includes('GooseMod') || componentStack.includes('GooseMod')) ? 'GooseMod Internals' : 'Unknown');
+    const suspectedName = suspectedPlugin || ((errorStack.includes('hypercord') || componentStack.includes('hypercord')) ? 'hypercord Internals' : 'Unknown');
     const suspectedType = suspectedPlugin ? 'Plugin' : 'Cause';
 
     this.setState({
@@ -64,7 +64,7 @@ return class GMErrorBoundary extends React.PureComponent {
   
         React.createElement(Header, {
           size: Header.Sizes.SIZE_24,
-        },  'GooseMod has handled an error',
+        },  'hypercord has handled an error',
           React.createElement(Markdown, {}, `## Suspected ${this.state.suspectedCause.type}: ${this.state.suspectedCause.name}`)
         )
       ),

@@ -1,10 +1,10 @@
 import * as PatcherBase from './base';
 import { getOwnerInstance, getNodeInternals, findInReactTree } from '../react';
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const labelToId = (label) => label.toLowerCase().replace(/ /g, '-');
@@ -76,8 +76,8 @@ const generateElement = (itemProps, _subItems, wantedNavId, type, extraInfo, { M
 };
 
 export const patch = (type, itemProps) => {
-  const { React } = goosemodScope.webpackModules.common;
-  const Menu = goosemodScope.webpackModules.findByProps('MenuItem');
+  const { React } = hypercordScope.webpackModules.common;
+  const Menu = hypercordScope.webpackModules.findByProps('MenuItem');
 
   const wantedNavId = patchTypeToNavId(type);
 
@@ -99,18 +99,18 @@ export const patch = (type, itemProps) => {
 
     const item = generateElement(clonedProps, clonedProps.sub, wantedNavId, type, Object.assign({}, getExtraInfo(navId)), { Menu, React });
   
-    let goosemodGroup = findInReactTree(children, child => child && child.props && child.props.goosemod === true);
+    let hypercordGroup = findInReactTree(children, child => child && child.props && child.props.hypercord === true);
 
-    if (!goosemodGroup) {
-      goosemodGroup = React.createElement(Menu.MenuGroup, { goosemod: true }, item);
+    if (!hypercordGroup) {
+      hypercordGroup = React.createElement(Menu.MenuGroup, { hypercord: true }, item);
 
-      children.push([ React.createElement(Menu.MenuSeparator), goosemodGroup ]);
+      children.push([ React.createElement(Menu.MenuSeparator), hypercordGroup ]);
     } else {
-      if (!Array.isArray(goosemodGroup.props.children)) {
-        goosemodGroup.props.children = [ goosemodGroup.props.children ];
+      if (!Array.isArray(hypercordGroup.props.children)) {
+        hypercordGroup.props.children = [ hypercordGroup.props.children ];
       }
     
-      goosemodGroup.props.children.push(item);
+      hypercordGroup.props.children.push(item);
     }
     
     return args;
@@ -118,7 +118,7 @@ export const patch = (type, itemProps) => {
 };
 
 
-// DEPRECATED: Compatibility functions for modules from older (<5.8.0) GooseMod versions
+// DEPRECATED: Compatibility functions for modules from older (<5.8.0) hypercord versions
 const uninjectors = {};
 
 export const add = (type, itemProps) => {

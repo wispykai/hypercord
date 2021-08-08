@@ -1,9 +1,9 @@
 let loadingEl, descEl;
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const startLoadingScreen = () => {
@@ -37,13 +37,13 @@ export const startLoadingScreen = () => {
   titleEl.style.boxShadow = 'none';
   titleEl.style.webkitBoxShadow = 'none';
 
-  titleEl.textContent = `Loading GooseMod`;
+  titleEl.textContent = `Loading hypercord`;
 
   const versionEl = document.createElement('div');
 
   versionEl.classList.add('colorStandard-2KCXvj', 'size14-e6ZScH', 'description-3_Ncsb', 'formText-3fs7AJ', 'modeDefault-3a2Ph1');
 
-  versionEl.textContent = `v${goosemodScope.versioning.version} (${goosemodScope.versioning.hash.substring(0, 7)})`;
+  versionEl.textContent = `v${hypercordScope.versioning.version} (${hypercordScope.versioning.hash.substring(0, 7)})`;
 
   versionEl.style.marginBottom = '20px';
 

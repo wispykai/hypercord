@@ -1,10 +1,10 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const FormText = goosemod.webpackModules.findByDisplayName('FormText');
-const Markdown = goosemod.webpackModules.findByDisplayName('Markdown');
+const FormText = hypercord.webpackModules.findByDisplayName('FormText');
+const Markdown = hypercord.webpackModules.findByDisplayName('Markdown');
 
-const Margins = goosemod.webpackModules.findByProps('marginTop20', 'marginBottom20');
+const Margins = hypercord.  webpackModules.findByProps('marginTop20', 'marginBottom20');
 
 return class Subtext extends React.PureComponent {
   render() {

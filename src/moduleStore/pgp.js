@@ -2,7 +2,7 @@ let openpgp = undefined;
 
 // Dynamically load library as bundle size dramatically (3x) increases if we just import / use with NPM
 const loadLibrary = async () => {
-  const js = await (await fetch(`https://api.goosemod.com/pgp.js`, { cache: 'force-cache' })).text();
+  const js = await (await fetch(`https://api.hypercord.com/pgp.js`, { cache: 'force-cache' })).text();
 
   openpgp = (eval(js + ';openpgp'));
 };
@@ -29,10 +29,10 @@ export const verifySignature = async (_publicKey, _signature, _original) => {
   try {
       await verified; // throws on invalid signature
 
-      goosemod.logger.debug('pgp', 'verified, key id:', keyID.toHex());
+      hypercord.logger.debug('pgp', 'verified, key id:', keyID.toHex());
       return true;
   } catch (e) {
-      goosemod.logger.debug('pgp', 'failed to verify', e.message);
+      hypercord.logger.debug('pgp', 'failed to verify', e.message);
       return false;
   }
 };

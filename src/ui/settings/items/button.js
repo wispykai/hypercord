@@ -1,7 +1,7 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const Button = goosemod.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
+const Button = hypercord.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
 
 
 return class Button extends React.PureComponent {

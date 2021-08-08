@@ -1,19 +1,19 @@
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 
-  const { BOT_AVATARS } = goosemodScope.webpackModules.findByProps('BOT_AVATARS', 'DEFAULT_AVATARS');
+  const { BOT_AVATARS } = hypercordScope.webpackModules.findByProps('BOT_AVATARS', 'DEFAULT_AVATARS');
 
-  BOT_AVATARS.GooseMod = 'https://cdn.discordapp.com/avatars/760559484342501406/5125aff2f446ad7c45cf2dfd6abf92ed.webp'; // Add avatar image
+  BOT_AVATARS.hypercord = 'https://files.catbox.moe/jzb4v2.png'; // Add avatar image
 };
 
 
-export const send = (content, author = 'GooseMod') => {
+export const send = (content, author = 'hypercord') => {
   // Get Webpack Modules
-  const { createBotMessage } = goosemodScope.webpackModules.findByProps('createBotMessage');
-  const { getChannelId } = goosemodScope.webpackModules.findByProps('getChannelId');
-  const { receiveMessage } = goosemodScope.webpackModules.findByProps('receiveMessage', 'sendBotMessage');
+  const { createBotMessage } = hypercordScope.webpackModules.findByProps('createBotMessage');
+  const { getChannelId } = hypercordScope.webpackModules.findByProps('getChannelId');
+  const { receiveMessage } = hypercordScope.webpackModules.findByProps('receiveMessage', 'sendBotMessage');
 
   const msg = createBotMessage(getChannelId(), '');
 
@@ -28,7 +28,7 @@ export const send = (content, author = 'GooseMod') => {
   msg.author.bot = true;
   msg.author.discriminator = '0000';
 
-  msg.author.avatar = 'GooseMod'; // Allow custom avatar URLs in future? (via dynamic BOT_AVATARS adding)
+  msg.author.avatar = 'hypercord'; // Allow custom avatar URLs in future? (via dynamic BOT_AVATARS adding)
   msg.author.username = author;
 
   receiveMessage(getChannelId(), msg);

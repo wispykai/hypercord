@@ -1,13 +1,13 @@
-let goosemodScope = {};
+let hypercordScope = {};
 let showHideMod = {};
 
 let originalChangelog = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
-  showHideMod = goosemodScope.webpackModules.findByProps('showChangeLog');
+  hypercordScope = scope;
+  showHideMod = hypercordScope.webpackModules.findByProps('showChangeLog');
 
-  const orig = goosemodScope.webpackModules.findByProps('changeLog').changeLog;
+  const orig = hypercordScope.webpackModules.findByProps('changeLog').changeLog;
 
   originalChangelog = Object.assign({}, orig);
 };
@@ -26,7 +26,7 @@ export const resetChangelog = () => {
 };
 
 export const setChangelog = (givenObj) => {
-  const mod = goosemodScope.webpackModules.findByProps('changeLog');
+  const mod = hypercordScope.webpackModules.findByProps('changeLog');
 
   const obj = {
     template: 'standard',

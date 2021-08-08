@@ -89,7 +89,7 @@ document.head.appendChild(styleSheet);
 
 export default (text, options = {}) => {
   if (options?.type?.startsWith('debug')) {
-    if (!goosemod.settings.gmSettings.get().debugToasts) return;
+    if (!hypercord.settings.gmSettings.get().debugToasts) return;
 
     options.type = options.type.replace('debug', '');
   } 

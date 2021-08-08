@@ -1,20 +1,20 @@
 import * as PatcherBase from './base';
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const patch = (name, imgUrl, forIds, clickHandler = (() => {}), { round = false } = {}) => {
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
-  const Tooltip = goosemodScope.webpackModules.findByDisplayName('Tooltip');
-  const Clickable = goosemodScope.webpackModules.findByDisplayName('Clickable');
+  const Tooltip = hypercordScope.webpackModules.findByDisplayName('Tooltip');
+  const Clickable = hypercordScope.webpackModules.findByDisplayName('Clickable');
 
-  const BadgeClasses = goosemodScope.webpackModules.findByProps('guildIconContainer');
+  const BadgeClasses = hypercordScope.webpackModules.findByProps('guildIconContainer');
 
-  const GuildHeader = goosemodScope.webpackModules.findByDisplayName('GuildHeader');
+  const GuildHeader = hypercordScope.webpackModules.findByDisplayName('GuildHeader');
   
   return PatcherBase.patch(GuildHeader.prototype, 'renderHeader', function (_args, res) {
     if (!forIds().includes(this.props.guild?.id)) return res;

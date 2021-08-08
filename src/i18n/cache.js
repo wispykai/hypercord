@@ -1,34 +1,34 @@
 // Based on moduleStore/jsCache - make generic cache class in future as part of util?
 import { sha512 } from '../util/hash';
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
-export const getCache = () => JSON.parse(goosemod.storage.get('goosemodi18nCache') || '{}');
-export const purgeCache = () => goosemod.storage.remove('goosemodi18nCache');
+export const getCache = () => JSON.parse(hypercord.storage.get('hypercordi18nCache') || '{}');
+export const purgeCache = () => hypercord.storage.remove('hypercordi18nCache');
 
-export const updateCache = (lang, hash, goosemodStrings) => {
+export const updateCache = (lang, hash, hypercordStrings) => {
   let cache = getCache();
 
-  cache[lang] = { hash, goosemodStrings };
+  cache[lang] = { hash, hypercordStrings };
 
-  goosemod.storage.set('goosemodi18nCache', JSON.stringify(cache));
+  hypercord.storage.set('hypercordi18nCache', JSON.stringify(cache));
 };
 
 export const geti18nData = async (lang) => {
   const cache = getCache();
 
   if (cache[lang]) { // && moduleInfo.hash === cache[lang].hash) {
-    return cache[lang].goosemodStrings;
+    return cache[lang].hypercordStrings;
   } else {
-    const goosemodStrings = await goosemodScope.i18n.geti18nData(lang);
-    const newHash = await sha512(JSON.stringify(goosemodStrings));
+    const hypercordStrings = await hypercordScope.i18n.geti18nData(lang);
+    const newHash = await sha512(JSON.stringify(hypercordStrings));
 
-    updateCache(lang, newHash, goosemodStrings);
+    updateCache(lang, newHash, hypercordStrings);
 
-    return goosemodStrings;
+    return hypercordStrings;
   }
 };

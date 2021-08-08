@@ -14,17 +14,17 @@ export const done = (thing) => {
 export const themes = async () => {
   const ModulesPreview = await import('./modulesPreview').default;
 
-  const { React } = goosemod.webpackModules.common;
+  const { React } = hypercord.webpackModules.common;
 
-  // const RoutingUtils = goosemod.webpackModules.findByProps('transitionTo');
+  // const RoutingUtils = hypercord.webpackModules.findByProps('transitionTo');
 
-  const Header = goosemod.webpackModules.findByDisplayName('Header');
-  const Text = goosemod.webpackModules.findByDisplayName('Text');
+  const Header = hypercord.webpackModules.findByDisplayName('Header');
+  const Text = hypercord.webpackModules.findByDisplayName('Text');
 
-  const possibleThemes = goosemod.moduleStoreAPI.modules.filter((x) => x.tags.includes('theme') && x.images && x.images[0]).sort((a, b) => b.github.stars - a.github.stars);
+  const possibleThemes = hypercord.moduleStoreAPI.modules.filter((x) => x.tags.includes('theme') && x.images && x.images[0]).sort((a, b) => b.github.stars - a.github.stars);
   const themeIndex = Math.floor(Math.random() * (possibleThemes.length - 5));
 
-  goosemod.webpackModules.findByProps('show').show({
+  hypercord.webpackModules.findByProps('show').show({
     className: 'gm-ootb-modal',
 
     title: 'Themes',
@@ -32,14 +32,14 @@ export const themes = async () => {
     confirmText: 'Browse Themes',
 
     onConfirm: async () => {
-      if (goosemod.ootb.todo.length === 0) {
+      if (hypercord.ootb.todo.length === 0) {
         /* while (document.querySelector('#gm-home-themes').classList.contains('selected-aXhQR6')) {
           await sleep(100);
         } */
 
         await sleep(2000);
 
-        goosemod.ootb.settings();
+        hypercord.ootb.settings();
       }
     },
 
@@ -69,17 +69,17 @@ export const themes = async () => {
 export const plugins = async () => {
   const ModulesPreview = await import('./modulesPreview').default();
 
-  const { React } = goosemod.webpackModules.common;
+  const { React } = hypercord.webpackModules.common;
 
-  // const RoutingUtils = goosemod.webpackModules.findByProps('transitionTo');
+  // const RoutingUtils = hypercord.webpackModules.findByProps('transitionTo');
 
-  const Header = goosemod.webpackModules.findByDisplayName('Header');
-  const Text = goosemod.webpackModules.findByDisplayName('Text');
+  const Header = hypercord.webpackModules.findByDisplayName('Header');
+  const Text = hypercord.webpackModules.findByDisplayName('Text');
 
-  const possiblePlugins = goosemod.moduleStoreAPI.modules.filter((x) => !x.tags.includes('theme') && x.images && x.images[0]).sort((a, b) => b.github.stars - a.github.stars);
+  const possiblePlugins = hypercord.moduleStoreAPI.modules.filter((x) => !x.tags.includes('theme') && x.images && x.images[0]).sort((a, b) => b.github.stars - a.github.stars);
   const pluginIndex = Math.floor(Math.random() * (possiblePlugins.length - 5));
 
-  goosemod.webpackModules.findByProps('show').show({
+  hypercord.webpackModules.findByProps('show').show({
     className: 'gm-ootb-modal',
 
     title: 'Plugins',
@@ -87,14 +87,14 @@ export const plugins = async () => {
     confirmText: 'Browse Plugins',
 
     onConfirm: async () => {
-      if (goosemod.ootb.todo.length === 0) {
+      if (hypercord.ootb.todo.length === 0) {
         /* while (document.querySelector('#gm-home-plugins').classList.contains('selected-aXhQR6')) {
           await sleep(100);
         } */
 
         await sleep(2000);
 
-        goosemod.ootb.settings();
+        hypercord.ootb.settings();
       }
     },
 
@@ -124,17 +124,17 @@ export const plugins = async () => {
 export const store = async () => {
   const ModulesPreview = await import('./modulesPreview').default;
 
-  const { React } = goosemod.webpackModules.common;
+  const { React } = hypercord.webpackModules.common;
 
-  const RoutingUtils = goosemod.webpackModules.findByProps('transitionTo');
+  const RoutingUtils = hypercord.webpackModules.findByProps('transitionTo');
 
-  const Header = goosemod.webpackModules.findByDisplayName('Header');
-  const Text = goosemod.webpackModules.findByDisplayName('Text');
+  const Header = hypercord.webpackModules.findByDisplayName('Header');
+  const Text = hypercord.webpackModules.findByDisplayName('Text');
 
-  const possibleModules = goosemod.moduleStoreAPI.modules.filter((x) => x.images && x.images[0]).sort((a, b) => b.github.stars - a.github.stars);
+  const possibleModules = hypercord.moduleStoreAPI.modules.filter((x) => x.images && x.images[0]).sort((a, b) => b.github.stars - a.github.stars);
   const moduleIndex = Math.floor(Math.random() * (possibleModules.length - 5));
 
-  goosemod.webpackModules.findByProps('show').show({
+  hypercord.webpackModules.findByProps('show').show({
     className: 'gm-ootb-modal',
 
     title: 'Store',
@@ -171,7 +171,7 @@ export const store = async () => {
 
         size: Text.Sizes.SIZE_16,
         color: Text.Colors.HEADER_SECONDARY
-      }, 'GooseMod uses it\'s own Store, where you can easily look around and install')
+      }, 'hypercord uses it\'s own Store, where you can easily look around and install')
     )
   });
 };
@@ -179,24 +179,24 @@ export const store = async () => {
 export const settings = async () => {
   const ModulesPreview = await import('./modulesPreview').default;
 
-  const { React } = goosemod.webpackModules.common;
+  const { React } = hypercord.webpackModules.common;
 
-  const Header = goosemod.webpackModules.findByDisplayName('Header');
-  const Text = goosemod.webpackModules.findByDisplayName('Text');
+  const Header = hypercord.webpackModules.findByDisplayName('Header');
+  const Text = hypercord.webpackModules.findByDisplayName('Text');
 
-  goosemod.webpackModules.findByProps('show').show({
+  hypercord.webpackModules.findByProps('show').show({
     className: 'gm-ootb-modal',
 
     title: 'Settings',
 
-    confirmText: 'View GooseMod Settings',
+    confirmText: 'View hypercord Settings',
 
     onConfirm: async () => {
-      goosemod.settings.openSettings();
+      hypercord.settings.openSettings();
 
       await sleep(20);
 
-      document.querySelector(`[aria-controls="gm-${goosemod.i18n.discordStrings.SETTINGS}-tab"]`).click(); // Open GM Settings page
+      document.querySelector(`[aria-controls="gm-${hypercord.i18n.discordStrings.SETTINGS}-tab"]`).click(); // Open GM Settings page
 
       const scroller = document.querySelector(`.sidebarRegionScroller-3MXcoP`); // Scroll to bottom of Settings
       scroller.scrollTop = scroller.offsetHeight - 270;
@@ -205,7 +205,7 @@ export const settings = async () => {
         await sleep(100);
       }
 
-      goosemod.ootb.community();
+      hypercord.ootb.community();
     },
 
     body: React.createElement('div', {
@@ -220,12 +220,12 @@ export const settings = async () => {
 
           {
             name: 'Utilities',
-            description: 'Make backups, reset GooseMod, and more'
+            description: 'Make backups, reset hypercord, and more'
           },
 
           {
             name: 'Tweaks',
-            description: 'Tweak GooseMod to how you want it'
+            description: 'Tweak hypercord to how you want it'
           }
         ]
       }),
@@ -234,7 +234,7 @@ export const settings = async () => {
         className: "header-2MiVco",
 
         size: Header.Sizes.SIZE_24
-      }, 'Use GooseMod\'s Settings to customise it\'s features'),
+      }, 'Use hypercord\'s Settings to customise it\'s features'),
 
       React.createElement(Text, {
         className: "byline-3REiHf",
@@ -249,20 +249,20 @@ export const settings = async () => {
 export const community = async () => {
   const ModulesPreview = await import('./modulesPreview').default;
 
-  const { React } = goosemod.webpackModules.common;
+  const { React } = hypercord.webpackModules.common;
 
-  const Header = goosemod.webpackModules.findByDisplayName('Header');
-  const Text = goosemod.webpackModules.findByDisplayName('Text');
+  const Header = hypercord.webpackModules.findByDisplayName('Header');
+  const Text = hypercord.webpackModules.findByDisplayName('Text');
 
-  goosemod.webpackModules.findByProps('show').show({
+  hypercord.webpackModules.findByProps('show').show({
     className: 'gm-ootb-modal',
 
     title: 'Community',
 
-    confirmText: 'Join GooseMod Discord',
+    confirmText: 'Join hypercord Discord',
 
     onConfirm: () => {
-      window.open('https://goosemod.com/discord');
+      window.open('https://hypercord.com/discord');
     },
 
     body: React.createElement('div', {
@@ -277,7 +277,7 @@ export const community = async () => {
 
           {
             name: 'News',
-            description: 'Get the latest news and announcements around GooseMod and related projects'
+            description: 'Get the latest news and announcements around hypercord and related projects'
           },
 
           {
@@ -291,7 +291,7 @@ export const community = async () => {
         className: "header-2MiVco",
 
         size: Header.Sizes.SIZE_24
-      }, 'Join GooseMod\'s Community'),
+      }, 'Join hypercord\'s Community'),
 
       React.createElement(Text, {
         className: "byline-3REiHf",
@@ -306,23 +306,23 @@ export const community = async () => {
 export const start = async () => {
   const ModulesPreview = await import('./modulesPreview').default;
 
-  const { React } = goosemod.webpackModules.common;
+  const { React } = hypercord.webpackModules.common;
 
-  const Header = goosemod.webpackModules.findByDisplayName('Header');
-  const Text = goosemod.webpackModules.findByDisplayName('Text');
+  const Header = hypercord.webpackModules.findByDisplayName('Header');
+  const Text = hypercord.webpackModules.findByDisplayName('Text');
 
-  goosemod.webpackModules.findByProps('show').show({
+  hypercord.webpackModules.findByProps('show').show({
     className: 'gm-ootb-modal',
 
-    title: 'GooseMod',
+    title: 'hypercord',
 
     confirmText: 'Learn More',
     cancelText: 'Not Interested',
 
     onConfirm: () => {
-      goosemod.ootb.enabled = true;
+      hypercord.ootb.enabled = true;
 
-      goosemod.ootb.store();
+      hypercord.ootb.store();
     },
 
     body: React.createElement('div', {
@@ -332,12 +332,12 @@ export const start = async () => {
         modules: [
           {
             name: 'Store',
-            description: 'Learn about GooseMod\'s Store and what\'s in it'
+            description: 'Learn about hypercord\'s Store and what\'s in it'
           },
 
           {
             name: 'Settings',
-            description: 'Find out about the settings for GooseMod and plugins'
+            description: 'Find out about the settings for hypercord and plugins'
           },
 
           {
@@ -351,14 +351,14 @@ export const start = async () => {
         className: "header-2MiVco",
 
         size: Header.Sizes.SIZE_24
-      }, 'Learn about GooseMod'),
+      }, 'Learn about hypercord'),
 
       React.createElement(Text, {
         className: "byline-3REiHf",
 
         size: Text.Sizes.SIZE_16,
         color: Text.Colors.HEADER_SECONDARY
-      }, 'Go through a short tour through GooseMod\'s core functions')
+      }, 'Go through a short tour through hypercord\'s core functions')
     )
   });
 };

@@ -1,11 +1,11 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const SelectTempWrapper = goosemod.webpackModules.findByDisplayName('SelectTempWrapper');
+const SelectTempWrapper = hypercord.webpackModules.findByDisplayName('SelectTempWrapper');
 
-const FormText = goosemod.webpackModules.findByDisplayName('FormText');
+const FormText = hypercord.webpackModules.findByDisplayName('FormText');
 
-const FormTextClasses = goosemod.webpackModules.findByProps('formText', 'placeholder');
+const FormTextClasses = hypercord.webpackModules.findByProps('formText', 'placeholder');
 
 
 return class DropdownIndividual extends React.PureComponent {

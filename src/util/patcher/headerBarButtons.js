@@ -1,17 +1,17 @@
 import * as PatcherBase from './base';
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const patch = (tooltipText, imgSrc, clickHandler, { atEnd = false, showWhere = [ 'dm', 'channel' ] } = {}) => {
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
-  const headerClasses = goosemod.webpackModules.findByProps('title', 'themed', 'icon', 'icon', 'iconBadge');
+  const headerClasses = hypercord.webpackModules.findByProps('title', 'themed', 'icon', 'icon', 'iconBadge');
 
-  const HeaderBar = goosemodScope.webpackModules.find((x) => x.default && x.default.displayName === 'HeaderBar');
+  const HeaderBar = hypercordScope.webpackModules.find((x) => x.default && x.default.displayName === 'HeaderBar');
 
   return PatcherBase.patch(HeaderBar, 'default', (_args, res) => {
     const buttons = res.props.children.props.children[1].props.children.props.children;

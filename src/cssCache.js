@@ -17,9 +17,9 @@ const save = () => {
     css = css.replace(new RegExp(`body.${x}`, 'g'), `body`)
   });
 
-  goosemod.storage.set('goosemodCSSCache', css);
+  hypercord.storage.set('hypercordCSSCache', css);
 
-  goosemod.showToast('Saved', { subtext: 'CSS Cache', type: 'debuginfo' });
+  hypercord.showToast('Saved', { subtext: 'CSS Cache', type: 'debuginfo' });
 };
 
 const injectHooks = () => {
@@ -72,11 +72,11 @@ export const load = () => {
   const el = document.createElement('style');
   el.id = `gm-css-cache`;
 
-  el.appendChild(document.createTextNode(goosemod.storage.get('goosemodCSSCache') || ''));
+  el.appendChild(document.createTextNode(hypercord.storage.get('hypercordCSSCache') || ''));
 
   document.body.appendChild(el);
 
-  goosemod.showToast('Loaded', { subtext: 'CSS Cache', type: 'debuginfo' });
+  hypercord.showToast('Loaded', { subtext: 'CSS Cache', type: 'debuginfo' });
 
   init();
 };

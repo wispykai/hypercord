@@ -19,7 +19,7 @@ export const debug = (_region, ...args) => {
     res.concat(makeRegionStyle(regionColor), '')
   , []);
 
-  console.log(`%cGooseMod%c ${regionStrings.join(' ')}`,
+  console.log(`%chypercord%c ${regionStrings.join(' ')}`,
     makeRegionStyle(gmColor),
     '',
 

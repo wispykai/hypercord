@@ -1,22 +1,22 @@
 import _Divider from './divider';
 
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
 const Divider = _Divider();
 
-const Button = goosemod.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
+const Button = hypercord.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
 
-const Markdown = goosemod.webpackModules.findByDisplayName('Markdown');
+const Markdown = hypercord.webpackModules.findByDisplayName('Markdown');
 
-const FormItem = goosemod.webpackModules.findByDisplayName('FormItem');
-const FormText = goosemod.webpackModules.findByDisplayName('FormText');
+const FormItem = hypercord.webpackModules.findByDisplayName('FormItem');
+const FormText = hypercord.webpackModules.findByDisplayName('FormText');
 
-const Flex = goosemod.webpackModules.findByDisplayName('Flex');
-const Margins = goosemod.webpackModules.findByProps('marginTop20', 'marginBottom20');
+const Flex = hypercord.webpackModules.findByDisplayName('Flex');
+const Margins = hypercord.webpackModules.findByProps('marginTop20', 'marginBottom20');
 
-const FormClasses = goosemod.webpackModules.findByProps('title', 'dividerDefault');
-const FormTextClasses = goosemod.webpackModules.findByProps('formText', 'placeholder');
+const FormClasses = hypercord.webpackModules.findByProps('title', 'dividerDefault');
+const FormTextClasses = hypercord.webpackModules.findByProps('formText', 'placeholder');
 
 return class TextAndButton extends React.PureComponent {
   render() {

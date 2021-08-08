@@ -1,9 +1,9 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const Text = goosemod.webpackModules.findByDisplayName('Text');
+const Text = hypercord.webpackModules.findByDisplayName('Text');
 
-const HeaderClasses = goosemod.webpackModules.findByProps('pageHeader');
+const HeaderClasses = hypercord.webpackModules.findByProps('pageHeader');
 
 return class StoreHeader extends React.PureComponent {
   render() {

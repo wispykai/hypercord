@@ -1,41 +1,41 @@
-import * as GoosemodChangelog from '../goosemodChangelog';
+import * as hypercordChangelog from '../hypercordChangelog';
 
-export default (goosemodScope, gmSettings, Items) => {
-  let oldItems = goosemodScope.settings.items;
-  goosemodScope.settings.items = [];
+export default (hypercordScope, gmSettings, Items) => {
+  let oldItems = hypercordScope.settings.items;
+  hypercordScope.settings.items = [];
 
-  goosemodScope.settings.createHeading('GooseMod');
+  hypercordScope.settings.createHeading('hypercord');
 
   const changeSetting = async (key, value) => {
     switch (key) {
       case 'changelog': {
         if (value) {
           const items = [
-            ['item', goosemodScope.i18n.discordStrings.CHANGE_LOG, [''], async () => {
-              GoosemodChangelog.show();
+            ['item', hypercordScope.i18n.discordStrings.CHANGE_LOG, [''], async () => {
+              hypercordChangelog.show();
             }, false]
           ];
 
           if (gmSettings.get().separators) items.unshift(['separator']);
 
-          goosemodScope.settings.items.splice(goosemodScope.settings.items.indexOf(goosemodScope.settings.items.find(x => x[1] === 'Themes')) + 1, 0,
+          hypercordScope.settings.items.splice(hypercordScope.settings.items.indexOf(hypercordScope.settings.items.find(x => x[1] === 'Themes')) + 1, 0,
             ...items
           );
         } else {
-          goosemodScope.settings.items.splice(goosemodScope.settings.items.indexOf(goosemodScope.settings.items.find(x => x[1] === 'Change Log')), gmSettings.get().separators ? 2 : 1);
+          hypercordScope.settings.items.splice(hypercordScope.settings.items.indexOf(hypercordScope.settings.items.find(x => x[1] === 'Change Log')), gmSettings.get().separators ? 2 : 1);
         }
 
-        await goosemodScope.settings.reopenSettings();
-        goosemodScope.settings.openSettingItem('Settings');
+        await hypercordScope.settings.reopenSettings();
+        hypercordScope.settings.openSettingItem('Settings');
 
         break;
       }
 
       case 'devchannel': {
         if (value) {
-          goosemod.storage.set('goosemodUntetheredBranch', 'dev');
+          hypercord.storage.set('hypercordUntetheredBranch', 'dev');
         } else {
-          goosemod.storage.remove('goosemodUntetheredBranch');
+          hypercord.storage.remove('hypercordUntetheredBranch');
         }
 
         break;
@@ -43,26 +43,26 @@ export default (goosemodScope, gmSettings, Items) => {
 
       case 'separators': {
         if (value) {
-          if (!gmSettings.get().home) goosemod.settings.items.splice(2, 0, ['separator']);
-          if (gmSettings.get().changelog) goosemod.settings.items.splice(4, 0, ['separator']);
+          if (!gmSettings.get().home) hypercord.settings.items.splice(2, 0, ['separator']);
+          if (gmSettings.get().changelog) hypercord.settings.items.splice(4, 0, ['separator']);
         } else {
           let main = true;
 
-          goosemodScope.settings.items = goosemodScope.settings.items.filter((x, i) => {
-            if (goosemodScope.settings.items[i + 1] && goosemodScope.settings.items[i + 1][1] && goosemodScope.settings.items[i + 1][1] === 'GooseMod Modules') main = false;
+          hypercordScope.settings.items = hypercordScope.settings.items.filter((x, i) => {
+            if (hypercordScope.settings.items[i + 1] && hypercordScope.settings.items[i + 1][1] && hypercordScope.settings.items[i + 1][1] === 'hypercord Modules') main = false;
 
             return !(x[0] === 'separator' && main);
           });
         }
 
-        await goosemodScope.settings.reopenSettings();
-        goosemodScope.settings.openSettingItem('Settings');
+        await hypercordScope.settings.reopenSettings();
+        hypercordScope.settings.openSettingItem('Settings');
 
         break;
       }
 
       case 'gmBadges': {
-        goosemodScope.gmBadges[value ? 'addBadges' : 'removeBadges']();
+        hypercordScope.gmBadges[value ? 'addBadges' : 'removeBadges']();
 
         break;
       }
@@ -72,14 +72,14 @@ export default (goosemodScope, gmSettings, Items) => {
   };
 
   const refreshPrompt = async () => {
-    if (await goosemodScope.confirmDialog('Refresh', 'Refresh Required', 'This setting **requires a refresh to take effect**. You **may experience some strange behaviour** in this session before refreshing.')) {
+    if (await hypercordScope.confirmDialog('Refresh', 'Refresh Required', 'This setting **requires a refresh to take effect**. You **may experience some strange behaviour** in this session before refreshing.')) {
       location.reload();
     }
   };
 
   let settingDebugShowing = false;
 
-  goosemodScope.settings.createItem(goosemodScope.i18n.discordStrings.SETTINGS, ['',
+  hypercordScope.settings.createItem(hypercordScope.i18n.discordStrings.SETTINGS, ['',
     {
       type: 'header',
       text: 'Settings'
@@ -88,8 +88,8 @@ export default (goosemodScope, gmSettings, Items) => {
     {
       type: 'toggle',
 
-      text: 'GooseMod Change Log',
-      subtext: 'Show GooseMod "Change Log" setting',
+      text: 'hypercord Change Log',
+      subtext: 'Show hypercord "Change Log" setting',
 
       onToggle: (c) => changeSetting('changelog', c),
       isToggled: () => gmSettings.get().changelog
@@ -99,7 +99,7 @@ export default (goosemodScope, gmSettings, Items) => {
       type: 'toggle',
 
       text: 'Main Separators',
-      subtext: 'Show separators between main GooseMod settings',
+      subtext: 'Show separators between main hypercord settings',
 
       onToggle: (c) => changeSetting('separators', c),
       isToggled: () => gmSettings.get().separators
@@ -109,7 +109,7 @@ export default (goosemodScope, gmSettings, Items) => {
       type: 'toggle',
 
       text: 'Store In Home',
-      subtext: 'Put GooseMod Store options in home instead of in settings',
+      subtext: 'Put hypercord Store options in home instead of in settings',
 
       onToggle: (c) => {
         changeSetting('home', c);
@@ -141,8 +141,8 @@ export default (goosemodScope, gmSettings, Items) => {
     {
       type: 'toggle',
 
-      text: 'GooseMod Badges',
-      subtext: 'Shows GooseMod\'s badges',
+      text: 'hypercord Badges',
+      subtext: 'Shows hypercord\'s badges',
 
       onToggle: (c) => changeSetting('gmBadges', c),
       isToggled: () => gmSettings.get().gmBadges
@@ -157,12 +157,12 @@ export default (goosemodScope, gmSettings, Items) => {
       type: 'text-and-button',
 
       text: 'Purge Caches',
-      subtext: 'Purges (completely removes) most caches GooseMod uses',
+      subtext: 'Purges (completely removes) most caches hypercord uses',
       buttonText: 'Purge',
 
       onclick: async () => {
-        // Like remove's dynamic local storage removal, but only remove GooseMod keys with "Cache" in 
-        goosemod.storage.keys().filter((x) => x.toLowerCase().startsWith('goosemod') && x.includes('Cache')).forEach((x) => goosemod.storage.remove(x));
+        // Like remove's dynamic local storage removal, but only remove hypercord keys with "Cache" in 
+        hypercord.storage.keys().filter((x) => x.toLowerCase().startsWith('hypercord') && x.includes('Cache')).forEach((x) => hypercord.storage.remove(x));
 
         refreshPrompt();
       }
@@ -172,11 +172,11 @@ export default (goosemodScope, gmSettings, Items) => {
       type: 'text-and-button',
 
       text: 'Start Tour',
-      subtext: 'Go through GooseMod\'s startup tour again',
+      subtext: 'Go through hypercord\'s startup tour again',
       buttonText: 'Tour',
 
       onclick: async () => {
-        goosemodScope.ootb.start();
+        hypercordScope.ootb.start();
       }
     },
 
@@ -184,11 +184,11 @@ export default (goosemodScope, gmSettings, Items) => {
       type: 'text-and-button',
 
       text: 'Copy Debug Info',
-      subtext: 'Copies information on setup and GooseMod for reporting and debugging',
+      subtext: 'Copies information on setup and hypercord for reporting and debugging',
       buttonText: 'Copy',
 
       onclick: async () => {
-        const { copy } = goosemodScope.webpackModules.findByProps('copy', 'SUPPORTS_COPY');
+        const { copy } = hypercordScope.webpackModules.findByProps('copy', 'SUPPORTS_COPY');
 
         const mods = {
           powercord: 'powercord',
@@ -203,11 +203,11 @@ User Agent: ${navigator.userAgent}
 Release Channel: ${GLOBAL_ENV.RELEASE_CHANNEL}
 Other Mods: ${Object.keys(mods).filter((x) => Object.keys(window).includes(x)).map((x) => mods[x]).join(', ')}
 
-GooseMod:
-GM Version: ${goosemodScope.versioning.version} (${goosemodScope.versioning.hash})
-GM Branch: ${goosemodScope.storage.get('goosemodUntetheredBranch')}
+hypercord:
+GM Version: ${hypercordScope.versioning.version} (${hypercordScope.versioning.hash})
+GM Branch: ${hypercordScope.storage.get('hypercordUntetheredBranch')}
 GM Extension Version: ${gmExtension}
-Modules: ${Object.keys(goosemodScope.modules).join(', ')}
+Modules: ${Object.keys(hypercordScope.modules).join(', ')}
 `);
       }
     },
@@ -215,13 +215,13 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
     {
       type: 'text-and-danger-button',
       
-      text: 'Reset GooseMod',
-      subtext: 'Resets GooseMod completely: removes all preferences and modules; like a first-time install',
+      text: 'Reset hypercord',
+      subtext: 'Resets hypercord completely: removes all preferences and modules; like a first-time install',
       buttonText: 'Reset',
 
       onclick: async () => {
-        if (await goosemodScope.confirmDialog('Reset', 'Reset GooseMod', 'Confirming will completely reset GooseMod, removing all preferences and modules; as if you had installed GooseMod for the first time. This is irreversible.')) {
-          goosemodScope.remove();
+        if (await hypercordScope.confirmDialog('Reset', 'Reset hypercord', 'Confirming will completely reset hypercord, removing all preferences and modules; as if you had installed hypercord for the first time. This is irreversible.')) {
+          hypercordScope.remove();
           window.location.reload();
         }
       }
@@ -236,12 +236,12 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
       type: 'text-and-button',
 
       text: 'Create Backup',
-      subtext: 'Creates a file for backup of your GooseMod modules and settings',
+      subtext: 'Creates a file for backup of your hypercord modules and settings',
       buttonText: 'Backup',
 
       onclick: () => {
-        const obj = goosemod.storage.keys().filter((x) => x.toLowerCase().startsWith('goosemod') && !x.includes('Cache')).reduce((acc, k) => {
-          acc[k] = goosemod.storage.get(k);
+        const obj = hypercord.storage.keys().filter((x) => x.toLowerCase().startsWith('hypercord') && !x.includes('Cache')).reduce((acc, k) => {
+          acc[k] = hypercord.storage.get(k);
           return acc;
         }, {});
 
@@ -253,7 +253,7 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
         const file = new Blob([ toSave ], { type: 'application/json' });
 
         el.href = URL.createObjectURL(file);
-        el.download = `goosemodBackup.json`;
+        el.download = `hypercordBackup.json`;
 
         document.body.appendChild(el);
 
@@ -267,7 +267,7 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
       type: 'text-and-button',
 
       text: 'Restore Backup',
-      subtext: 'Restore your GooseMod modules and settings via a backup file, **only restore backups you trust**',
+      subtext: 'Restore your hypercord modules and settings via a backup file, **only restore backups you trust**',
       buttonText: 'Restore',
 
       onclick: async () => {
@@ -288,9 +288,9 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
           const obj = JSON.parse(reader.result);
 
           for (const k in obj) {
-            if (!k.startsWith('goosemod')) continue; // Don't set if not goosemod key for some security
+            if (!k.startsWith('hypercord')) continue; // Don't set if not hypercord key for some security
 
-            goosemod.storage.set(k, obj[k]);
+            hypercord.storage.set(k, obj[k]);
           }
 
           location.reload();
@@ -316,13 +316,13 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
 
       experimental: true,
       text: 'Development Channel',
-      subtext: 'Use experimental development GooseMod builds',
+      subtext: 'Use experimental development hypercord builds',
 
       onToggle: (c) => {
         changeSetting('devchannel', c);
         refreshPrompt();
       },
-      isToggled: () => goosemod.storage.get('goosemodUntetheredBranch') === 'dev'
+      isToggled: () => hypercord.storage.get('hypercordUntetheredBranch') === 'dev'
     },
 
     {
@@ -383,7 +383,7 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
       onToggle: () => {
         settingDebugShowing = true;
 
-        goosemodScope.settings.createItem('Debug', ['',
+        hypercordScope.settings.createItem('Debug', ['',
           ...Object.keys(Items).filter((x) => x !== 'card').map((x) => ({
             type: x,
 
@@ -427,7 +427,7 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
     { type: 'gm-footer' }
   ]);
 
-  if (gmSettings.get().separators && !gmSettings.get().home) goosemodScope.settings.createSeparator();
+  if (gmSettings.get().separators && !gmSettings.get().home) hypercordScope.settings.createSeparator();
 
   let sortedVal = 'Stars';
   let authorVal = 'All';
@@ -464,7 +464,7 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
         }
 
         case 'Last Updated': {
-          const module = goosemodScope.moduleStoreAPI.modules.find((x) => x.name === name.trim());
+          const module = hypercordScope.moduleStoreAPI.modules.find((x) => x.name === name.trim());
 
           c.style.order = 3000000000 - module.lastUpdated;
 
@@ -496,7 +496,7 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
     allHeader.style.margin = !noInput ? '0' : '';
   };
 
-  goosemodScope.settings.updateModuleStoreUI = updateModuleStoreUI;
+  hypercordScope.settings.updateModuleStoreUI = updateModuleStoreUI;
 
   const genCurrentDate = new Date();
 
@@ -506,11 +506,11 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
     return (x.github.stars / daysSinceUpdate) - (x.github.stars / 2) + (1 - daysSinceUpdate);
   };
 
-  [goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins, goosemodScope.i18n.goosemodStrings.settings.itemNames.themes].forEach((x) => goosemodScope.settings.createItem(x, ['',
+  [hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins, hypercordScope.i18n.hypercordStrings.settings.itemNames.themes].forEach((x) => hypercordScope.settings.createItem(x, ['',
     {
       type: 'search',
 
-      placeholder: `${goosemodScope.i18n.discordStrings.SEARCH} ${x}`,
+      placeholder: `${hypercordScope.i18n.discordStrings.SEARCH} ${x}`,
 
       onchange: (query) => {
         searchQuery = query;
@@ -545,9 +545,9 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
       label: 'Author',
 
       options: () => {
-        const idCache = goosemodScope.moduleStoreAPI.idCache.getCache();
+        const idCache = hypercordScope.moduleStoreAPI.idCache.getCache();
 
-        const authors = [...goosemodScope.moduleStoreAPI.modules.reduce((acc, x) => {
+        const authors = [...hypercordScope.moduleStoreAPI.modules.reduce((acc, x) => {
           let authors = x.authors;
 
           if (!Array.isArray(authors)) authors = [ authors ];
@@ -613,7 +613,7 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
     { type: 'gm-footer' }
   ]));
 
-  goosemodScope.settings.createItem('Snippets', ['',
+  hypercordScope.settings.createItem('Snippets', ['',
     {
       type: 'search',
 
@@ -638,16 +638,16 @@ Modules: ${Object.keys(goosemodScope.modules).join(', ')}
   ]);
 
   if (gmSettings.get().changelog) {
-    if (gmSettings.get().separators) goosemodScope.settings.createSeparator();
+    if (gmSettings.get().separators) hypercordScope.settings.createSeparator();
 
-    goosemodScope.settings.createItem(goosemodScope.i18n.discordStrings.CHANGE_LOG, [""], async () => {
-      GoosemodChangelog.show();
+    hypercordScope.settings.createItem(hypercordScope.i18n.discordStrings.CHANGE_LOG, [""], async () => {
+      hypercordChangelog.show();
     });
   }
 
-  goosemodScope.settings.createSeparator();
+  hypercordScope.settings.createSeparator();
 
-  goosemodScope.settings.createHeading(goosemodScope.i18n.goosemodStrings.settings.itemNames.goosemodModules);
+  hypercordScope.settings.createHeading(hypercordScope.i18n.hypercordStrings.settings.itemNames.hypercordModules);
 
-  goosemodScope.settings.items = goosemodScope.settings.items.concat(oldItems);
+  hypercordScope.settings.items = hypercordScope.settings.items.concat(oldItems);
 };

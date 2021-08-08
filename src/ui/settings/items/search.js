@@ -1,7 +1,7 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const SearchBar = goosemod.webpackModules.findByDisplayName('SearchBar');
+const SearchBar = hypercord.webpackModules.findByDisplayName('SearchBar');
 
 return class Search extends React.PureComponent {
   render() {

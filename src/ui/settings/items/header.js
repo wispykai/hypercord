@@ -1,12 +1,12 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const FormTitle = goosemod.webpackModules.findByDisplayName('FormTitle');
+const FormTitle = hypercord.webpackModules.findByDisplayName('FormTitle');
 
-const Margins = goosemod.webpackModules.findByProps('marginTop20', 'marginBottom20');
+const Margins = hypercord.webpackModules.findByProps('marginTop20', 'marginBottom20');
 
-const Tooltip = goosemod.webpackModules.findByDisplayName('Tooltip');
-const Science = goosemod.webpackModules.findByDisplayName('Science');
+const Tooltip = hypercord.webpackModules.findByDisplayName('Tooltip');
+const Science = hypercord.webpackModules.findByDisplayName('Science');
 
 
 return class Header extends React.PureComponent {
@@ -78,7 +78,7 @@ return class Header extends React.PureComponent {
     },
       this.props.text,
 
-      React.createElement(goosemod.webpackModules.findByDisplayName('DropdownArrow'), {
+      React.createElement(hypercord.webpackModules.findByDisplayName('DropdownArrow'), {
         className: [`gm-settings-header-collapser`, this.props.collapsed ? 'collapsed' : ''].join(' '),
 
         width: 22,

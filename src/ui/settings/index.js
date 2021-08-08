@@ -14,37 +14,37 @@ import addCustomCss from './css';
 import getItems from './items';
 let Items = {};
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = async (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 
   Items = await getItems();
 };
 
 
 export const removeModuleUI = (field, where) => {
-  // let settingItem = goosemodScope.settings.items.find((x) => x[1] === 'Local Modules');
+  // let settingItem = hypercordScope.settings.items.find((x) => x[1] === 'Local Modules');
 
-  // settingItem[2].splice(settingItem[2].indexOf(settingItem[2].find((x) => x.subtext === goosemodScope.modules[field].description)), 1);
+  // settingItem[2].splice(settingItem[2].indexOf(settingItem[2].find((x) => x.subtext === hypercordScope.modules[field].description)), 1);
 
-  const isDisabled = goosemodScope.modules[field] === undefined; // If module is currently disabled
+  const isDisabled = hypercordScope.modules[field] === undefined; // If module is currently disabled
   if (isDisabled) {
-    goosemodScope.modules[field] = Object.assign({}, goosemodScope.disabledModules[field]); // Move from disabledModules -> modules
-    delete goosemodScope.disabledModules[field];
+    hypercordScope.modules[field] = Object.assign({}, hypercordScope.disabledModules[field]); // Move from disabledModules -> modules
+    delete hypercordScope.disabledModules[field];
   }
 
-  goosemodScope.moduleStoreAPI.moduleRemoved(goosemodScope.modules[field]);
+  hypercordScope.moduleStoreAPI.moduleRemoved(hypercordScope.modules[field]);
 
-  if (!isDisabled) goosemodScope.modules[field].goosemodHandlers.onRemove();
+  if (!isDisabled) hypercordScope.modules[field].hypercordHandlers.onRemove();
 
-  delete goosemodScope.modules[field];
+  delete hypercordScope.modules[field];
 
-  goosemodScope.moduleSettingsStore.clearModuleSetting(field);
+  hypercordScope.moduleSettingsStore.clearModuleSetting(field);
 
-  // goosemodScope.settings.createFromItems();
+  // hypercordScope.settings.createFromItems();
 
-  if (where) goosemodScope.settings.openSettingItem(where);
+  if (where) hypercordScope.settings.openSettingItem(where);
 };
 
 export const isSettingsOpen = () => {
@@ -78,11 +78,11 @@ export const openSettingItem = (name) => {
 };
 
 export const reopenSettings = async () => {
-  goosemodScope.settings.closeSettings();
+  hypercordScope.settings.closeSettings();
 
   await sleep(500);
 
-  goosemodScope.settings.openSettings();
+  hypercordScope.settings.openSettings();
 
   await sleep(100);
 };
@@ -90,31 +90,31 @@ export const reopenSettings = async () => {
 export let items = [];
 
 export const createItem = (panelName, content, clickHandler, danger = false) => {
-  goosemodScope.settings.items.push(['item', panelName, content, clickHandler, danger]);
+  hypercordScope.settings.items.push(['item', panelName, content, clickHandler, danger]);
 };
 
 export const removeItem = (setting) => {
-  const ind = goosemodScope.settings.items.indexOf(goosemodScope.settings.items.find((x) => x[1] === setting));
+  const ind = hypercordScope.settings.items.indexOf(hypercordScope.settings.items.find((x) => x[1] === setting));
 
   // Trying to remove non-existant item
   if (ind === -1) return false;
 
-  goosemodScope.settings.items.splice(ind, 1);
+  hypercordScope.settings.items.splice(ind, 1);
 };
 
 export const createHeading = (headingName) => {
-  goosemodScope.settings.items.push(['heading', headingName]);
+  hypercordScope.settings.items.push(['heading', headingName]);
 };
 
 export const createSeparator = () => {
-  goosemodScope.settings.items.push(['separator']);
+  hypercordScope.settings.items.push(['separator']);
 };
 
 export const _createItem = (name, content, container = true) => {
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
-  const FormSection = goosemodScope.webpackModules.findByDisplayName('FormSection');
-  const FormTitle = goosemodScope.webpackModules.findByDisplayName('FormTitle');
+  const FormSection = hypercordScope.webpackModules.findByDisplayName('FormSection');
+  const FormTitle = hypercordScope.webpackModules.findByDisplayName('FormTitle');
 
   const makeContent = () => content.slice(1).map((x, i) => {
     if (x.type.includes('danger-button')) {
@@ -134,7 +134,7 @@ export const _createItem = (name, content, container = true) => {
   });
 
   return container ? React.createElement(FormSection, {
-      className: name === goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins || name === goosemodScope.i18n.goosemodStrings.settings.itemNames.themes ? 'gm-store-settings' : ''
+      className: name === hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins || name === hypercordScope.i18n.hypercordStrings.settings.itemNames.themes ? 'gm-store-settings' : ''
     },
 
     React.createElement(FormTitle, { tag: 'h1' }, name),
@@ -145,14 +145,14 @@ export const _createItem = (name, content, container = true) => {
   );
 };
 
-export const makeGooseModSettings = () => {
-  goosemodScope.settingsUninjects = [];
+export const makehypercordSettings = () => {
+  hypercordScope.settingsUninjects = [];
 
-  addBaseItems(goosemodScope, gmSettings, Items);
+  addBaseItems(hypercordScope, gmSettings, Items);
 
-  addToSettingsSidebar(goosemodScope, gmSettings);
-  addToContextMenu(goosemodScope, gmSettings.get().home);
-  if (gmSettings.get().home) addToHome(goosemodScope);
+  addToSettingsSidebar(hypercordScope, gmSettings);
+  addToContextMenu(hypercordScope, gmSettings.get().home);
+  if (gmSettings.get().home) addToHome(hypercordScope);
 
   addCustomCss();
 
@@ -160,10 +160,10 @@ export const makeGooseModSettings = () => {
 };
 
 const loadColorPicker = () => { // Force load ColorPicker as it's dynamically loaded
-  const { findInReactTree } = goosemodScope.reactUtils;
+  const { findInReactTree } = hypercordScope.reactUtils;
 
-  if (!goosemodScope.webpackModules.findByDisplayName('ColorPicker')) {
-    const GuildFolderSettingsModal = goosemodScope.webpackModules.findByDisplayName('GuildFolderSettingsModal');
+  if (!hypercordScope.webpackModules.findByDisplayName('ColorPicker')) {
+    const GuildFolderSettingsModal = hypercordScope.webpackModules.findByDisplayName('GuildFolderSettingsModal');
     const instance = GuildFolderSettingsModal.prototype.render.call({ props: {}, state: {}});
   
     findInReactTree(instance.props.children, (x) => x.props?.colors).type().props.children.type._ctor();

@@ -1,7 +1,7 @@
 {
   "name": "injector",
   "version": "3.0.0",
-  "description": "GooseMod injector",
+  "description": "Hypercord injector",
   "main": "index.js",
   "scripts": {
     "build": "rollup -c",
@@ -9,18 +9,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GooseMod/GooseMod.git"
+    "url": "git+https://github.com/wispykai/hypercord.git"
   },
   "keywords": [
-    "goosemod",
+    "hypercord",
     "discord"
   ],
-  "author": "GooseMod",
+  "author": "hypercord",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/GooseMod/GooseMod/issues"
+    "url": "https://github.com/wispykai/hypercord/issues"
   },
-  "homepage": "https://github.com/GooseMod/GooseMod#readme",
+  "homepage": "https://github.com/wispykai/hypercord#readme",
   "devDependencies": {
     "rollup": "^2.55.1",
     "rollup-plugin-local-resolve": "^1.0.7",

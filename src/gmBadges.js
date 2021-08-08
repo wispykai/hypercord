@@ -1,17 +1,17 @@
-let goosemodScope = {};
+let hypercordScope = {};
 let unpatchers = [];
 
 let cssEl;
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 
   cssEl = document.createElement('style');
 
   cssEl.textContent = `
 /* Custom title replacing "Server Boost" */
 #gm-sponsor-modal .headerTitle-1_9Kor {
-  background-image: url(https://goosemod.com/img/goose_gold.jpg);
+  background-image: url(https://hypercord.com/img/goose_gold.jpg);
 
   background-repeat: no-repeat;
   background-size: contain;
@@ -34,7 +34,7 @@ export const setThisScope = (scope) => {
   margin-left: 70px;
   margin-top: 6px;
 
-  content: 'GooseMod Sponsor';
+  content: 'hypercord Sponsor';
 }
 
 #gm-sponsor-modal .guildBackground-3UtSZ2 > svg:first-child { /* Hide Lottie hands animation */
@@ -66,18 +66,18 @@ export const setThisScope = (scope) => {
 };
 
 const showSponsorModal = () => {
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
-  const PremiumFeaturesList = goosemodScope.webpackModules.findByDisplayName('PremiumFeaturesList');
-  const FeaturesClasses = goosemodScope.webpackModules.findByProps('roleIcon', 'profileBadgeIcon');
-  const PersonShield = goosemodScope.webpackModules.findByDisplayName('PersonShield');
+  const PremiumFeaturesList = hypercordScope.webpackModules.findByDisplayName('PremiumFeaturesList');
+  const FeaturesClasses = hypercordScope.webpackModules.findByProps('roleIcon', 'profileBadgeIcon');
+  const PersonShield = hypercordScope.webpackModules.findByDisplayName('PersonShield');
 
-  const ModalComponents = goosemodScope.webpackModules.findByProps('ModalFooter');
+  const ModalComponents = hypercordScope.webpackModules.findByProps('ModalFooter');
 
-  const { Button } = goosemodScope.webpackModules.findByPropsAll('Button')[1];
-  const ButtonClasses = goosemodScope.webpackModules.findByProps('button', 'colorRed');
+  const { Button } = hypercordScope.webpackModules.findByPropsAll('Button')[1];
+  const ButtonClasses = hypercordScope.webpackModules.findByProps('button', 'colorRed');
 
-  const { PremiumGuildSubscriptionPurchaseModal } = goosemodScope.webpackModules.findByProps('PremiumGuildSubscriptionPurchaseModal');
+  const { PremiumGuildSubscriptionPurchaseModal } = hypercordScope.webpackModules.findByProps('PremiumGuildSubscriptionPurchaseModal');
 
   const parent = { default: PremiumGuildSubscriptionPurchaseModal };
 
@@ -93,7 +93,7 @@ const showSponsorModal = () => {
     className: FeaturesClasses[className]
   }, child));
 
-  goosemodScope.patcher.patch(parent, 'default', ([ { onClose } ], res) => {
+  hypercordScope.patcher.patch(parent, 'default', ([ { onClose } ], res) => {
     res.props.id = 'gm-sponsor-modal';
 
     res.props.children[1].props.children = [];
@@ -103,13 +103,13 @@ const showSponsorModal = () => {
         
         },
 
-        React.createElement('div', {}, `You can sponsor (donate regularly or one-time) GooseMod to help support it's development.`),
+        React.createElement('div', {}, `You can sponsor (donate regularly or one-time) hypercord to help support it's development.`),
 
         React.createElement(PremiumFeaturesList, {
           columns: 2,
           features: [
             {
-              description: 'Sponsor badge in GooseMod',
+              description: 'Sponsor badge in hypercord',
               overrideIcon: makeIcon('profileBadgeIcon')
             },
             {
@@ -152,13 +152,13 @@ const showSponsorModal = () => {
     return res;
   });
 
-  const { openModal } = goosemodScope.webpackModules.findByProps('openModal');
+  const { openModal } = hypercordScope.webpackModules.findByProps('openModal');
 
   openModal((e) => React.createElement(parent.default, { ...e }));
 };
 
 const badgeUsers = {
-  sponsor: [ // People sponsoring (donating money) to GooseMod / Ducko
+  sponsor: [ // People sponsoring (donating money) to hypercord / Ducko
     '506482395269169153', // Ducko
     '597905003717459968', // creatable
     '405400327370571786', // Chix
@@ -175,11 +175,11 @@ const badgeUsers = {
     '541210648982585354', // Heli / heli_is_for_noob
   ],
 
-  dev: [ // People actively developing GooseMod itself
+  dev: [ // People actively developing hypercord itself
     '506482395269169153', // Ducko
   ],
 
-  translator: [ // People who have translated GooseMod to other languages
+  translator: [ // People who have translated hypercord to other languages
     '506482395269169153', // Ducko
     '394579914860396565', // C4Phoenix
     '787017887877169173', // Dziurwa
@@ -201,11 +201,11 @@ export const addBadges = () => {
 
   unpatchers.push(
     // User badges
-    goosemodScope.patcher.userBadges.patch('GooseMod Sponsor',
-      'https://goosemod.com/img/goose_gold.jpg',
+    hypercordScope.patcher.userBadges.patch('hypercord Sponsor',
+      'https://files.catbox.moe/jzb4v2.png',
 
       // Force check via query because Discord not properly rerendering
-      () => goosemodScope.settings.gmSettings.get().gmBadges ? badgeUsers.sponsor : [],
+      () => hypercordScope.settings.gmSettings.get().gmBadges ? badgeUsers.sponsor : [],
 
       () => {
         showSponsorModal();
@@ -214,11 +214,11 @@ export const addBadges = () => {
       { round: true }
     ),
 
-    goosemodScope.patcher.userBadges.patch('GooseMod Translator',
-      'https://goosemod.com/img/goose_globe.png',
+    hypercordScope.patcher.userBadges.patch('hypercord Translator',
+      'https://files.catbox.moe/jzb4v2.png',
 
       // Force check via query because Discord not properly rerendering
-      () => goosemodScope.settings.gmSettings.get().gmBadges ? badgeUsers.translator : [],
+      () => hypercordScope.settings.gmSettings.get().gmBadges ? badgeUsers.translator : [],
 
       () => {
         
@@ -227,11 +227,11 @@ export const addBadges = () => {
       { round: true }
     ),
 
-    goosemodScope.patcher.userBadges.patch('GooseMod Developer',
-      'https://goosemod.com/img/goose_glitch.jpg',
+    hypercordScope.patcher.userBadges.patch('hypercord Developer',
+      'https://files.catbox.moe/jzb4v2.png',
 
       // Force check via query because Discord not properly rerendering
-      () => goosemodScope.settings.gmSettings.get().gmBadges ? badgeUsers.dev : [],
+      () => hypercordScope.settings.gmSettings.get().gmBadges ? badgeUsers.dev : [],
 
       () => {
         
@@ -241,11 +241,11 @@ export const addBadges = () => {
     ),
 
     // Guild badges
-    goosemod.patcher.guildBadges.patch('GooseMod Official Discord',
-      'https://goosemod.com/img/logo.jpg',
+    hypercord.patcher.guildBadges.patch('hypercord Official Discord',
+      'https://files.catbox.moe/jzb4v2.png',
     
       // Force check via query because Discord not properly rerendering
-      () => goosemodScope.settings.gmSettings.get().gmBadges ? ['756146058320674998'] : [],
+      () => hypercordScope.settings.gmSettings.get().gmBadges ? ['756146058320674998'] : [],
     
       () => {
 

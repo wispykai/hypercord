@@ -1,15 +1,15 @@
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const patch = () => {
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
-  const Avatar = goosemodScope.webpackModules.findByProps('Sizes', 'AnimatedAvatar');
+  const Avatar = hypercordScope.webpackModules.findByProps('Sizes', 'AnimatedAvatar');
 
-  goosemodScope.patcher.patch(Avatar, 'default', ([ { src } ], res) => {
+  hypercordScope.patcher.patch(Avatar, 'default', ([ { src } ], res) => {
     if (!src.includes('/avatars')) return;
 
     res.props['data-user-id'] = src.match(/\/avatars\/([0-9]+)\//)[1];
@@ -18,7 +18,7 @@ export const patch = () => {
   });
 
   // Patch AnimatedAvatar to force rerender
-  goosemodScope.patcher.patch(Avatar.AnimatedAvatar, 'type', (_args, res) => {
+  hypercordScope.patcher.patch(Avatar.AnimatedAvatar, 'type', (_args, res) => {
     return React.createElement(Avatar.default, { ...res.props });
   });
 };

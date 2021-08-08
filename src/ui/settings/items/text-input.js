@@ -1,17 +1,17 @@
 import _Divider from './divider';
 
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
 const Divider = _Divider;
 
-const FormItem = goosemod.webpackModules.findByDisplayName('FormItem');
-const FormText = goosemod.webpackModules.findByDisplayName('FormText');
-const TextInput = goosemod.webpackModules.findByDisplayName('TextInput');
+const FormItem = hypercord.webpackModules.findByDisplayName('FormItem');
+const FormText = hypercord.webpackModules.findByDisplayName('FormText');
+const TextInput = hypercord.webpackModules.findByDisplayName('TextInput');
 
-const Flex = goosemod.webpackModules.findByDisplayName('Flex');
-const Margins = goosemod.webpackModules.findByProps('marginTop20', 'marginBottom20');
-const FormClasses = goosemod.webpackModules.findByProps('formText', 'description');
+const Flex = hypercord.webpackModules.findByDisplayName('Flex');
+const Margins = hypercord.webpackModules.findByProps('marginTop20', 'marginBottom20');
+const FormClasses = hypercord.webpackModules.findByProps('formText', 'description');
 
 
 return class TextInputGM extends React.PureComponent {

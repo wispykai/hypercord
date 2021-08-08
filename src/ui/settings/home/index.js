@@ -1,34 +1,34 @@
-export default async (goosemodScope) => {
-  const { React, ReactDOM } = goosemodScope.webpackModules.common;
+export default async (hypercordScope) => {
+  const { React, ReactDOM } = hypercordScope.webpackModules.common;
 
-  const ConnectedPrivateChannelsList = goosemodScope.webpackModules.find((x) => x.default && x.default.displayName === 'ConnectedPrivateChannelsList');
+  const ConnectedPrivateChannelsList = hypercordScope.webpackModules.find((x) => x.default && x.default.displayName === 'ConnectedPrivateChannelsList');
 
-  const ListSectionItem = goosemodScope.webpackModules.findByDisplayName('ListSectionItem');
-  const { LinkButton } = goosemodScope.webpackModules.findByProps('LinkButton');
+  const ListSectionItem = hypercordScope.webpackModules.findByDisplayName('ListSectionItem');
+  const { LinkButton } = hypercordScope.webpackModules.findByProps('LinkButton');
 
-  const LinkButtonClasses = goosemodScope.webpackModules.findByProps('selected', 'wrappedName');
-  const ChannelLinkButtonClasses = goosemodScope.webpackModules.findByProps('channel', 'linkButtonIcon');
-  const HeaderClasses = goosemodScope.webpackModules.findByProps('headerText', 'privateChannelsHeaderContainer');
-  const IconClasses = goosemodScope.webpackModules.findByProps('icon', 'iconBadge', 'title');
-  const ScrollerClasses = goosemodScope.webpackModules.findByProps('scrollerBase', 'auto');
+  const LinkButtonClasses = hypercordScope.webpackModules.findByProps('selected', 'wrappedName');
+  const ChannelLinkButtonClasses = hypercordScope.webpackModules.findByProps('channel', 'linkButtonIcon');
+  const HeaderClasses = hypercordScope.webpackModules.findByProps('headerText', 'privateChannelsHeaderContainer');
+  const IconClasses = hypercordScope.webpackModules.findByProps('icon', 'iconBadge', 'title');
+  const ScrollerClasses = hypercordScope.webpackModules.findByProps('scrollerBase', 'auto');
 
   const homeIcons = {
-    themes: React.createElement(goosemodScope.webpackModules.findByDisplayName('Eye'), {
+    themes: React.createElement(hypercordScope.webpackModules.findByDisplayName('Eye'), {
       width: 24,
       height: 24
     }),
 
-    plugins: React.createElement(goosemodScope.webpackModules.findByDisplayName('InlineCode'), {
+    plugins: React.createElement(hypercordScope.webpackModules.findByDisplayName('InlineCode'), {
       width: 24,
       height: 24
     }),
 
-    snippets: React.createElement(goosemodScope.webpackModules.findByDisplayName('Pictures'), {
+    snippets: React.createElement(hypercordScope.webpackModules.findByDisplayName('Pictures'), {
       width: 24,
       height: 24
     }),
 
-    expandable: React.createElement(goosemod.webpackModules.findByDisplayName('DropdownArrow'), {
+    expandable: React.createElement(hypercord.webpackModules.findByDisplayName('DropdownArrow'), {
       className: `${IconClasses.icon}`,
 
       width: 24,
@@ -38,7 +38,7 @@ export default async (goosemodScope) => {
 
   const Header = (await import('./header')).default();
 
-  const LoadingPopout = goosemodScope.webpackModules.findByDisplayName('LoadingPopout');
+  const LoadingPopout = hypercordScope.webpackModules.findByDisplayName('LoadingPopout');
 
   const makeHeader = (icon, title) => React.createElement(Header, {
     icon,
@@ -69,7 +69,7 @@ export default async (goosemodScope) => {
     makeContent(false, content)
   );
 
-  const RoutingUtils = goosemodScope.webpackModules.findByProps('transitionTo');
+  const RoutingUtils = hypercordScope.webpackModules.findByProps('transitionTo');
 
   const findClassInParentTree = (el, className, depth = 0) => {
     if (depth > 5) return false;
@@ -78,18 +78,18 @@ export default async (goosemodScope) => {
     return (parentEl.classList.contains(className) && parentEl) || findClassInParentTree(parentEl, className, depth + 1);
   };
 
-  let expanded = goosemod.storage.get('goosemodHomeExpanded') || true;
+  let expanded = hypercord.storage.get('hypercordHomeExpanded') || true;
 
   let settings = {
-    plugins: goosemodScope.settings.items.find((x) => x[1] === goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins),
-    themes: goosemodScope.settings.items.find((x) => x[1] === goosemodScope.i18n.goosemodStrings.settings.itemNames.themes),
-    snippets: goosemodScope.settings.items.find((x) => x[1] === 'Snippets')
+    plugins: hypercordScope.settings.items.find((x) => x[1] === hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins),
+    themes: hypercordScope.settings.items.find((x) => x[1] === hypercordScope.i18n.hypercordStrings.settings.itemNames.themes),
+    snippets: hypercordScope.settings.items.find((x) => x[1] === 'Snippets')
   };
 
   let contents = {
-    plugins: goosemodScope.settings._createItem(settings.plugins[1], settings.plugins[2], false),
-    themes: goosemodScope.settings._createItem(settings.themes[1], settings.themes[2], false),
-    snippets: goosemodScope.settings._createItem(settings.snippets[1], settings.snippets[2], false)
+    plugins: hypercordScope.settings._createItem(settings.plugins[1], settings.plugins[2], false),
+    themes: hypercordScope.settings._createItem(settings.themes[1], settings.themes[2], false),
+    snippets: hypercordScope.settings._createItem(settings.snippets[1], settings.snippets[2], false)
   };
 
   const handleItemClick = (type) => {
@@ -103,10 +103,10 @@ export default async (goosemodScope) => {
     }, 0);
 
     const contentCards = type !== 'snippets' && Array.isArray(contents[type].props.children) ? contents[type].props.children.filter((x) => x.props.type === 'card').length : 0;
-    const expectedModuleCount = type !== 'snippets' ? goosemodScope.moduleStoreAPI.modules.filter((x) => type === 'plugins' ? !x.tags.includes('theme') : x.tags.includes('theme')).length : 0;
+    const expectedModuleCount = type !== 'snippets' ? hypercordScope.moduleStoreAPI.modules.filter((x) => type === 'plugins' ? !x.tags.includes('theme') : x.tags.includes('theme')).length : 0;
 
-    if (contentCards !== expectedModuleCount || goosemodScope.settings[`regen${type}`]) { // If amount of cards in generated React content isn't the same as amount of modules in Store
-      delete goosemodScope.settings[`regen${type}`];
+    if (contentCards !== expectedModuleCount || hypercordScope.settings[`regen${type}`]) { // If amount of cards in generated React content isn't the same as amount of modules in Store
+      delete hypercordScope.settings[`regen${type}`];
 
       contents[type] = React.createElement('div', { // Show loading indicator whilst wait
         className: 'gm-store-loading-container'
@@ -116,10 +116,10 @@ export default async (goosemodScope) => {
 
       (async () => {
         if (type !== 'snippets' && settings[type][2].filter((x) => x.type === 'card').length !== expectedModuleCount) { // Update store settings if card counts mismatch
-          await goosemodScope.moduleStoreAPI.updateStoreSetting();
+          await hypercordScope.moduleStoreAPI.updateStoreSetting();
         }
 
-        contents[type] = goosemodScope.settings._createItem(settings[type][1], settings[type][2], false); // Generate React content
+        contents[type] = hypercordScope.settings._createItem(settings[type][1], settings[type][2], false); // Generate React content
 
         document.querySelector(`#gm-home-${type}`).click();
       })();
@@ -149,17 +149,17 @@ export default async (goosemodScope) => {
       ReactDOM.render(makeContent(isLibrary, contents[type]), indexOffset !== 0 ? parentEl.children[indexOffset + 1].children[0] : parentEl.children[indexOffset + 1]);
     }
 
-    if (goosemodScope.ootb.enabled && goosemodScope.ootb.todo.includes(type)) {
-      goosemodScope.ootb[type]();
+    if (hypercordScope.ootb.enabled && hypercordScope.ootb.todo.includes(type)) {
+      hypercordScope.ootb[type]();
 
-      goosemodScope.ootb.done(type);
+      hypercordScope.ootb.done(type);
     }
   };
   
-  const snippetsEnabled = goosemodScope.settings.gmSettings.get().snippets;
+  const snippetsEnabled = hypercordScope.settings.gmSettings.get().snippets;
 
-  goosemodScope.settingsUninjects.push(goosemodScope.patcher.patch(ConnectedPrivateChannelsList, 'default', (_args, res) => {
-    if (res.props.children.slice(3).find((x) => x?.toString()?.includes('GooseMod'))) return;
+  hypercordScope.settingsUninjects.push(hypercordScope.patcher.patch(ConnectedPrivateChannelsList, 'default', (_args, res) => {
+    if (res.props.children.slice(3).find((x) => x?.toString()?.includes('hypercord'))) return;
 
     setTimeout(() => {
       document.querySelector(`.scroller-1JbKMe`).addEventListener('click', (e) => {
@@ -183,7 +183,7 @@ export default async (goosemodScope) => {
     },
       React.createElement('span', {
         className: HeaderClasses.headerText
-      }, 'GooseMod'),
+      }, 'hypercord'),
 
       React.createElement('div', {
         className: `${HeaderClasses.privateChannelRecipientsInviteButtonIcon} ${IconClasses.iconWrapper} ${IconClasses.clickable}`,
@@ -198,7 +198,7 @@ export default async (goosemodScope) => {
 
         onClick: () => {
           expanded = !expanded;
-          goosemod.storage.set('goosemodHomeExpanded', expanded);
+          hypercord.storage.set('hypercordHomeExpanded', expanded);
 
           // Force update sidebar (jank DOM way)
           document.querySelector(`.scroller-1JbKMe`).dispatchEvent(new Event('focusin'));
@@ -211,7 +211,7 @@ export default async (goosemodScope) => {
 
     () => React.createElement(LinkButton, {
       style: {
-        display: expanded || document.querySelector('.title-29uC1r')?.textContent === goosemodScope.i18n.goosemodStrings.settings.itemNames.themes ? 'block' : 'none'
+        display: expanded || document.querySelector('.title-29uC1r')?.textContent === hypercordScope.i18n.hypercordStrings.settings.itemNames.themes ? 'block' : 'none'
       },
 
       icon: () => homeIcons.themes,
@@ -219,14 +219,14 @@ export default async (goosemodScope) => {
 
       id: 'gm-home-themes',
 
-      text: goosemodScope.i18n.goosemodStrings.settings.itemNames.themes,
+      text: hypercordScope.i18n.hypercordStrings.settings.itemNames.themes,
 
       selected: false
     }),
 
     () => React.createElement(LinkButton, {
       style: {
-        display: expanded || document.querySelector('.title-29uC1r')?.textContent === goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins ? 'block' : 'none'
+        display: expanded || document.querySelector('.title-29uC1r')?.textContent === hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins ? 'block' : 'none'
       },
 
       icon: () => homeIcons.plugins,
@@ -234,7 +234,7 @@ export default async (goosemodScope) => {
 
       id: 'gm-home-plugins',
 
-      text: goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins,
+      text: hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins,
 
       selected: false
     }),
@@ -264,9 +264,9 @@ export default async (goosemodScope) => {
 
   (async () => { // Pre-generate contents with cached modules
     // Make store setting with cached modules whilst waiting for hotupdate from repos
-    await goosemodScope.moduleStoreAPI.updateStoreSetting();
+    await hypercordScope.moduleStoreAPI.updateStoreSetting();
 
-    const snippetsLoaded = (JSON.parse(goosemod.storage.get('goosemodSnippets')) || {});
+    const snippetsLoaded = (JSON.parse(hypercord.storage.get('hypercordSnippets')) || {});
 
     for (const id in snippetsLoaded) {
       const css = snippetsLoaded[id];
@@ -279,9 +279,9 @@ export default async (goosemodScope) => {
     }
 
     const snippetsLoad = async (channelId, label) => {
-      const { fetchMessages } = goosemodScope.webpackModules.findByProps('fetchMessages');
-      const { getRawMessages } = goosemodScope.webpackModules.findByProps('getMessages');
-      const { getChannel, hasChannel } = goosemodScope.webpackModules.findByProps('getChannel');
+      const { fetchMessages } = hypercordScope.webpackModules.findByProps('fetchMessages');
+      const { getRawMessages } = hypercordScope.webpackModules.findByProps('getMessages');
+      const { getChannel, hasChannel } = hypercordScope.webpackModules.findByProps('getChannel');
   
       if (!hasChannel(channelId)) return;
 
@@ -295,7 +295,7 @@ export default async (goosemodScope) => {
           !x.content.includes('Theme Toggler')
         ).sort((a, b) => (b.attachments.length + b.embeds.length) - (a.attachments.length + a.embeds.length)); // Bias to favour images so we can have previews first
   
-      const settingItem = goosemodScope.settings.items.find((x) => x[1] === 'Snippets');
+      const settingItem = hypercordScope.settings.items.find((x) => x[1] === 'Snippets');
   
       settingItem[2].push(
         {
@@ -321,7 +321,7 @@ export default async (goosemodScope) => {
   
           subtext: x.content.replace(/```css(.*)```/gs, ''), // Only context / text without code
   
-          buttonText: snippetsLoaded[x.id] ? goosemodScope.i18n.discordStrings.REMOVE : goosemodScope.i18n.discordStrings.ADD,
+          buttonText: snippetsLoaded[x.id] ? hypercordScope.i18n.discordStrings.REMOVE : hypercordScope.i18n.discordStrings.ADD,
           buttonType: snippetsLoaded[x.id] ? 'danger' : 'brand',
 
           onclick: () => {
@@ -329,7 +329,7 @@ export default async (goosemodScope) => {
             const cardEl = document.querySelector(`[class*="${x.id}"]`);
             const buttonEl = cardEl.querySelector(`button`);
   
-            goosemodScope.settings.regensnippets = true;
+            hypercordScope.settings.regensnippets = true;
 
             if (snippetsLoaded[x.id]) { // Remove
               snippetsLoaded[x.id].remove();
@@ -337,9 +337,9 @@ export default async (goosemodScope) => {
               delete snippetsLoaded[x.id];
 
               buttonEl.className = buttonEl.className.replace('lookOutlined-3sRXeN colorRed-1TFJan', 'lookFilled-1Gx00P colorBrand-3pXr91');
-              buttonEl.textContent = goosemodScope.i18n.discordStrings.ADD;
+              buttonEl.textContent = hypercordScope.i18n.discordStrings.ADD;
 
-              cardSet.buttonText = goosemodScope.i18n.discordStrings.ADD;
+              cardSet.buttonText = hypercordScope.i18n.discordStrings.ADD;
               cardSet.buttonType = 'brand';
             } else { // Add
               snippetsLoaded[x.id] = document.createElement('style');
@@ -349,9 +349,9 @@ export default async (goosemodScope) => {
               document.body.appendChild(snippetsLoaded[x.id]);
 
               buttonEl.className = buttonEl.className.replace('lookFilled-1Gx00P colorBrand-3pXr91', 'lookOutlined-3sRXeN colorRed-1TFJan');
-              buttonEl.textContent = goosemodScope.i18n.discordStrings.REMOVE;
+              buttonEl.textContent = hypercordScope.i18n.discordStrings.REMOVE;
 
-              cardSet.buttonText = goosemodScope.i18n.discordStrings.REMOVE;
+              cardSet.buttonText = hypercordScope.i18n.discordStrings.REMOVE;
               cardSet.buttonType = 'danger';
             }
 
@@ -361,7 +361,7 @@ export default async (goosemodScope) => {
               toSave[id] = toSave[id].textContent;
             }
 
-            goosemod.storage.set('goosemodSnippets', JSON.stringify(toSave));
+            hypercord.storage.set('hypercordSnippets', JSON.stringify(toSave));
           },
 
           showToggle: false, // No toggling snippets as overcomplex for small snippets
@@ -376,7 +376,7 @@ export default async (goosemodScope) => {
 
 
     for (const type of ['themes', 'plugins', 'snippets']) {
-      contents[type] = goosemodScope.settings._createItem(settings[type][1], settings[type][2], false); // Generate React contents
+      contents[type] = hypercordScope.settings._createItem(settings[type][1], settings[type][2], false); // Generate React contents
     }
   })();
 };

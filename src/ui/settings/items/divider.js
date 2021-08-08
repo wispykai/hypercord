@@ -1,8 +1,8 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const FormDivider = goosemod.webpackModules.findByDisplayName('FormDivider');
-const SettingsFormClasses = goosemod.webpackModules.findByProps('dividerDefault', 'titleDefault');
+const FormDivider = hypercord.webpackModules.findByDisplayName('FormDivider');
+const SettingsFormClasses = hypercord.webpackModules.findByProps('dividerDefault', 'titleDefault');
 
 return class Divider extends React.PureComponent {
   render() {

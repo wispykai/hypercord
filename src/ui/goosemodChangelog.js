@@ -4,10 +4,10 @@ const image = 'https://media.discordapp.net/attachments/756146058924392542/77137
 
 let version, generated;
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const show = async () => {
@@ -15,25 +15,25 @@ export const show = async () => {
     generate();
   }
 
-  goosemodScope.changelog.resetChangelog();
+  hypercordScope.changelog.resetChangelog();
 
-  goosemodScope.changelog.setChangelog(generated);
+  hypercordScope.changelog.setChangelog(generated);
 
-  goosemodScope.changelog.showChangelog();
+  hypercordScope.changelog.showChangelog();
 
   await sleep(300);
 
   const customTweaks = () => {
-    document.querySelector('.modal-1TF_VN .size20-17Iy80').textContent = `GooseMod ${version}`; // Set changelog modal title
+    document.querySelector('.modal-1TF_VN .size20-17Iy80').textContent = `hypercord ${version}`; // Set changelog modal title
 
     document.querySelector('.modal-1TF_VN .footer-2gL1pp').remove(); // Remove footer of modal with social media
   };
 
   customTweaks();
 
-  goosemodScope.changelog.resetChangelog();
+  hypercordScope.changelog.resetChangelog();
 
-  // Tweak again since opening it right at beginning of injection / Discord load (eg: GooseMod update) often fails to do after first wait
+  // Tweak again since opening it right at beginning of injection / Discord load (eg: hypercord update) often fails to do after first wait
   setTimeout(customTweaks, 300);
 };
 

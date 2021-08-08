@@ -4,11 +4,11 @@ import { sha512 } from '../util/hash';
 import * as JSCache from './jsCache';
 import * as IDCache from './idCache';
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export default {
   setThisScope: (scope) => {
-    goosemodScope = scope;
+    hypercordScope = scope;
 
     JSCache.setThisScope(scope);
     IDCache.setThisScope(scope);
@@ -17,47 +17,47 @@ export default {
   modules: [],
   repos: [],
 
-  apiBaseURL: 'https://api.goosemod.com',
-  storeApiBaseURL: 'https://store.goosemod.com',
+  apiBaseURL: 'https://api.hypercord.com',
+  storeApiBaseURL: 'https://store.hypercord.com',
 
   jsCache: JSCache,
   idCache: IDCache,
 
   getSettingItemName: (moduleInfo) => {
-    let item = goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins;
+    let item = hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins;
 
-    if (moduleInfo.tags.includes('theme')) item = goosemodScope.i18n.goosemodStrings.settings.itemNames.themes;
+    if (moduleInfo.tags.includes('theme')) item = hypercordScope.i18n.hypercordStrings.settings.itemNames.themes;
 
     return item;
   },
 
   hotupdate: async (shouldHandleLoadingText = false) => { // Update repos, hotreload any updated modules (compare hashes to check if updated)
-    if (shouldHandleLoadingText) goosemodScope.updateLoadingScreen(`Getting modules from repos...`);
+    if (shouldHandleLoadingText) hypercordScope.updateLoadingScreen(`Getting modules from repos...`);
 
-    await goosemodScope.moduleStoreAPI.updateModules();
+    await hypercordScope.moduleStoreAPI.updateModules();
   
-    await goosemodScope.moduleStoreAPI.updateStoreSetting();
+    await hypercordScope.moduleStoreAPI.updateStoreSetting();
 
-    if (shouldHandleLoadingText) goosemodScope.updateLoadingScreen(`Updating modules...`);
+    if (shouldHandleLoadingText) hypercordScope.updateLoadingScreen(`Updating modules...`);
 
     const repoPgpChecks = {};
 
     const updatePromises = [];
 
-    for (const m in goosemodScope.modules) {
-      const msHash = goosemodScope.moduleStoreAPI.modules.find((x) => x.name === m)?.hash;
+    for (const m in hypercordScope.modules) {
+      const msHash = hypercordScope.moduleStoreAPI.modules.find((x) => x.name === m)?.hash;
 
-      const cacheHash = goosemodScope.moduleStoreAPI.jsCache.getCache()[m]?.hash;
+      const cacheHash = hypercordScope.moduleStoreAPI.jsCache.getCache()[m]?.hash;
 
       if (msHash === undefined || cacheHash === undefined || msHash === cacheHash) continue;
 
       if (repoPgpChecks[m.repo] === undefined) { // Force check repo's PGP if updating from there
-        const repo = goosemodScope.moduleStoreAPI.repos.find((x) => x.url === m.repo);
+        const repo = hypercordScope.moduleStoreAPI.repos.find((x) => x.url === m.repo);
 
-        const pgpUntrusted = goosemodScope.moduleStoreAPI.verifyPgp(repo).trustState === 'untrusted';
+        const pgpUntrusted = hypercordScope.moduleStoreAPI.verifyPgp(repo).trustState === 'untrusted';
 
         if (pgpUntrusted) { // Repo PGP failed to verify and once had PGP success, refuse to update modules for this repo
-          goosemodScope.showToast(`Failed to verify repo ${repo.meta.name}, refusing to update it's modules`, { timeout: 10000, type: 'error', subtext: 'GooseMod Store (PGP)' });
+          hypercordScope.showToast(`Failed to verify repo ${repo.meta.name}, refusing to update it's modules`, { timeout: 10000, type: 'error', subtext: 'hypercord Store (PGP)' });
           repoPgpChecks[m.repo] = false;
           continue;
         }
@@ -68,10 +68,10 @@ export default {
       if (repoPgpChecks[m.repo] === false) continue; // Failed to verify PGP, skip
 
       // New update for it, cached JS != repo JS hashes
-      if (shouldHandleLoadingText) goosemodScope.updateLoadingScreen(`Updating modules...\n${m}`);
+      if (shouldHandleLoadingText) hypercordScope.updateLoadingScreen(`Updating modules...\n${m}`);
 
-      updatePromises.push(goosemodScope.moduleStoreAPI.importModule(m, goosemodScope.moduleSettingsStore.checkDisabled(m)).then(async () => {
-        goosemodScope.showToast(`Updated ${m}`, { timeout: 5000, type: 'success', subtext: 'GooseMod Store' });
+      updatePromises.push(hypercordScope.moduleStoreAPI.importModule(m, hypercordScope.moduleSettingsStore.checkDisabled(m)).then(async () => {
+        hypercordScope.showToast(`Updated ${m}`, { timeout: 5000, type: 'success', subtext: 'hypercord Store' });
       }));
     }
 
@@ -86,19 +86,19 @@ export default {
       meta: await getFirstMeta(url)
     });
 
-    goosemodScope.moduleStoreAPI.repos = JSON.parse(goosemod.storage.get('goosemodRepos')) || [
-      await getFirstObj(`https://store.goosemod.com/goosemod.json`),
-      await getFirstObj(`https://store.goosemod.com/ms2porter.json`),
-      await getFirstObj(`https://store.goosemod.com/bdthemes.json`),
-      await getFirstObj(`https://store.goosemod.com/pcthemes.json`),
-      await getFirstObj(`https://store.goosemod.com/pcplugins.json`),
+    hypercordScope.moduleStoreAPI.repos = JSON.parse(hypercord.storage.get('hypercordRepos')) || [
+      await getFirstObj(`https://store.hypercord.com/hypercord.json`),
+      await getFirstObj(`https://store.hypercord.com/ms2porter.json`),
+      await getFirstObj(`https://store.hypercord.com/bdthemes.json`),
+      await getFirstObj(`https://store.hypercord.com/pcthemes.json`),
+      await getFirstObj(`https://store.hypercord.com/pcplugins.json`),
     ];
   },
 
   updateModules: async () => {
     let newModules = [];
 
-    goosemodScope.moduleStoreAPI.repos = (await Promise.all(goosemodScope.moduleStoreAPI.repos.map(async (repo) => {
+    hypercordScope.moduleStoreAPI.repos = (await Promise.all(hypercordScope.moduleStoreAPI.repos.map(async (repo) => {
       if (!repo.enabled) {
         return repo;
       }
@@ -107,12 +107,12 @@ export default {
         const _resp = (await (await fetch(`${repo.url}?_=${Date.now()}`)).text());
         const resp = JSON.parse(_resp);
 
-        const pgpUntrusted = await goosemodScope.moduleStoreAPI.verifyPgp(repo).trustState === 'untrusted';
+        const pgpUntrusted = await hypercordScope.moduleStoreAPI.verifyPgp(repo).trustState === 'untrusted';
 
         if (pgpUntrusted) {
-          goosemodScope.showToast(`Failed to verify repo: ${repo.meta.name}, refusing to use new modules`, { timeout: 10000, type: 'error', subtext: 'GooseMod Store (PGP)' });
+          hypercordScope.showToast(`Failed to verify repo: ${repo.meta.name}, refusing to use new modules`, { timeout: 10000, type: 'error', subtext: 'hypercord Store (PGP)' });
 
-          newModules = newModules.concat(goosemodScope.moduleStoreAPI.modules.filter((x) => x.repo === repo.url)).sort((a, b) => a.name.localeCompare(b.name)); // Use cached / pre-existing modules
+          newModules = newModules.concat(hypercordScope.moduleStoreAPI.modules.filter((x) => x.repo === repo.url)).sort((a, b) => a.name.localeCompare(b.name)); // Use cached / pre-existing modules
 
           return repo;
         }
@@ -129,55 +129,55 @@ export default {
           resp: _resp // Store raw response (PGP caching)
         };
       } catch (e) {
-        goosemodScope.showToast(`Failed to get repo: ${repo.url}`, { timeout: 5000, type: 'error', subtext: 'GooseMod Store' }); // Show error toast to user so they know
+        hypercordScope.showToast(`Failed to get repo: ${repo.url}`, { timeout: 5000, type: 'error', subtext: 'hypercord Store' }); // Show error toast to user so they know
         console.error(e);
       }
 
       return repo;
-    }))).sort((a, b) => goosemodScope.moduleStoreAPI.repos.indexOf(a.url) - goosemodScope.moduleStoreAPI.repos.indexOf(b.url));
+    }))).sort((a, b) => hypercordScope.moduleStoreAPI.repos.indexOf(a.url) - hypercordScope.moduleStoreAPI.repos.indexOf(b.url));
 
-    goosemodScope.moduleStoreAPI.modules = newModules;
+    hypercordScope.moduleStoreAPI.modules = newModules;
 
-    goosemod.storage.set('goosemodRepos', JSON.stringify(goosemodScope.moduleStoreAPI.repos.map((x) => { delete x.resp; return x; }))); // Don't store raw responses
-    goosemod.storage.set('goosemodCachedModules', JSON.stringify(goosemodScope.moduleStoreAPI.modules));
+    hypercord.storage.set('hypercordRepos', JSON.stringify(hypercordScope.moduleStoreAPI.repos.map((x) => { delete x.resp; return x; }))); // Don't store raw responses
+    hypercord.storage.set('hypercordCachedModules', JSON.stringify(hypercordScope.moduleStoreAPI.modules));
   },
 
   importModule: async (moduleName, disabled = false) => {
     try {
-      const moduleInfo = goosemodScope.moduleStoreAPI.modules.find((x) => x.name === moduleName);
+      const moduleInfo = hypercordScope.moduleStoreAPI.modules.find((x) => x.name === moduleName);
 
-      const jsCode = await goosemodScope.moduleStoreAPI.jsCache.getJSForModule(moduleName);
+      const jsCode = await hypercordScope.moduleStoreAPI.jsCache.getJSForModule(moduleName);
 
       const calculatedHash = await sha512(jsCode);
       if (calculatedHash !== moduleInfo.hash) {
-        goosemodScope.showToast(`Cancelled importing of ${moduleName} due to hash mismatch`, { timeout: 2000, type: 'danger', subtext: 'GooseMod Store' });
+        hypercordScope.showToast(`Cancelled importing of ${moduleName} due to hash mismatch`, { timeout: 2000, type: 'danger', subtext: 'hypercord Store' });
 
         console.warn('Hash mismatch', calculatedHash, moduleInfo.hash);
         return;
       }
 
-      await goosemodScope.importModule({
+      await hypercordScope.importModule({
         name: moduleName,
         data: jsCode,
         metadata: moduleInfo
       }, disabled);
 
       if (!disabled) {
-        if (goosemodScope.modules[moduleName].goosemodHandlers.onLoadingFinished !== undefined) {
-          await goosemodScope.modules[moduleName].goosemodHandlers.onLoadingFinished();
+        if (hypercordScope.modules[moduleName].hypercordHandlers.onLoadingFinished !== undefined) {
+          await hypercordScope.modules[moduleName].hypercordHandlers.onLoadingFinished();
         }
 
-        await goosemodScope.moduleSettingsStore.loadSavedModuleSetting(moduleName);
+        await hypercordScope.moduleSettingsStore.loadSavedModuleSetting(moduleName);
       }
 
       try {
-        const item = goosemodScope.settings.items.find((x) => x[1] === goosemodScope.moduleStoreAPI.getSettingItemName(moduleInfo))[2].find((x) => x.subtext === moduleInfo.description);
+        const item = hypercordScope.settings.items.find((x) => x[1] === hypercordScope.moduleStoreAPI.getSettingItemName(moduleInfo))[2].find((x) => x.subtext === moduleInfo.description);
 
         item.buttonType = 'danger';
-        item.buttonText = goosemodScope.i18n.discordStrings.REMOVE;
+        item.buttonText = hypercordScope.i18n.discordStrings.REMOVE;
         item.showToggle = true;
       } catch (e) {
-        // goosemodScope.logger.debug('import', 'Failed to change setting during MS importModule (likely during initial imports so okay)');
+        // hypercordScope.logger.debug('import', 'Failed to change setting during MS importModule (likely during initial imports so okay)');
       }
 
       // If themes / plugins open
@@ -190,25 +190,25 @@ export default {
           const buttonEl = cardEl.querySelector(`.colorBrand-3pXr91`);
 
           buttonEl.className = buttonEl.className.replace('lookFilled-1Gx00P colorBrand-3pXr91', 'lookOutlined-3sRXeN colorRed-1TFJan');
-          buttonEl.textContent = goosemodScope.i18n.discordStrings.REMOVE;
+          buttonEl.textContent = hypercordScope.i18n.discordStrings.REMOVE;
 
           const toggleEl = cardEl.querySelector(`.container-3auIfb`);
           toggleEl.classList.remove('hide-toggle');
         }
       }
     } catch (e) {
-      goosemodScope.showToast(`Failed to import module ${moduleName}`, { timeout: 2000, type: 'error', subtext: 'GooseMod Store' });
+      hypercordScope.showToast(`Failed to import module ${moduleName}`, { timeout: 2000, type: 'error', subtext: 'hypercord Store' });
       console.error(e);
     }
   },
 
   moduleRemoved: (m) => {
-    let item = goosemodScope.settings.items.find((x) => x[1] === goosemodScope.moduleStoreAPI.getSettingItemName(m))[2].find((x) => x.subtext === m.description);
+    let item = hypercordScope.settings.items.find((x) => x[1] === hypercordScope.moduleStoreAPI.getSettingItemName(m))[2].find((x) => x.subtext === m.description);
     
     if (item === undefined) return;
 
     item.buttonType = 'brand';
-    item.buttonText = goosemodScope.i18n.goosemodStrings.moduleStore.card.button.import;
+    item.buttonText = hypercordScope.i18n.hypercordStrings.moduleStore.card.button.import;
     item.showToggle = false;
 
     // If themes / plugins open
@@ -221,7 +221,7 @@ export default {
         const buttonEl = cardEl.querySelector(`.colorRed-1TFJan`);
 
         buttonEl.className = buttonEl.className.replace('lookOutlined-3sRXeN colorRed-1TFJan', 'lookFilled-1Gx00P colorBrand-3pXr91');
-        buttonEl.textContent = goosemodScope.i18n.goosemodStrings.moduleStore.card.button.import;
+        buttonEl.textContent = hypercordScope.i18n.hypercordStrings.moduleStore.card.button.import;
 
         const toggleEl = cardEl.querySelector(`.container-3auIfb`);
         toggleEl.classList.add('hide-toggle');
@@ -241,7 +241,7 @@ export default {
     return (await Promise.all(authors.map(async (x, i) => {
       if (typeof x === 'object') { // User object
         const pfp = `<img style="display: inline; border-radius: 50%; margin-right: 5px; vertical-align: bottom;" src="https://cdn.discordapp.com/avatars/${x.i}/${x.a}.png?size=32">`;
-        const name = `<span class="author" style="cursor: pointer; line-height: 32px;" onmouseover="this.style.color = '#ccc'" onmouseout="this.style.color = '#fff'" onclick="try { window.goosemod.webpackModules.findByProps('open', 'fetchMutualFriends').open('${x.i}') } catch (e) { }">${x.n}</span>`; //<span class="description-3_Ncsb">#${result.discriminator}</span></span>`;
+        const name = `<span class="author" style="cursor: pointer; line-height: 32px;" onmouseover="this.style.color = '#ccc'" onmouseout="this.style.color = '#fff'" onclick="try { window.hypercord.webpackModules.findByProps('open', 'fetchMutualFriends').open('${x.i}') } catch (e) { }">${x.n}</span>`; //<span class="description-3_Ncsb">#${result.discriminator}</span></span>`;
 
         return i > 1 ? pfp : pfp + name;
       }
@@ -250,7 +250,7 @@ export default {
         const result = await IDCache.getDataForID(x);
 
         const pfp = `<img style="display: inline; border-radius: 50%; margin-right: 5px; vertical-align: bottom;" src="https://cdn.discordapp.com/avatars/${result.id}/${result.avatar}.png?size=32">`;
-        const name = `<span class="author" style="cursor: pointer; line-height: 32px;" onmouseover="this.style.color = '#ccc'" onmouseout="this.style.color = '#fff'" onclick="try { window.goosemod.webpackModules.findByProps('open', 'fetchMutualFriends').open('${result.id}') } catch (e) { }">${result.username}</span>`; //<span class="description-3_Ncsb">#${result.discriminator}</span></span>`;
+        const name = `<span class="author" style="cursor: pointer; line-height: 32px;" onmouseover="this.style.color = '#ccc'" onmouseout="this.style.color = '#fff'" onclick="try { window.hypercord.webpackModules.findByProps('open', 'fetchMutualFriends').open('${result.id}') } catch (e) { }">${result.username}</span>`; //<span class="description-3_Ncsb">#${result.discriminator}</span></span>`;
 
         return i > 1 ? pfp : pfp + name;
       }
@@ -258,19 +258,19 @@ export default {
       let idMatch = x.match(/(.*) \(([0-9]{17,18})\)/); // "<name> (<id>)"
       if (idMatch === null) return `<span class="author">${x}</span>`; // "<name>"
 
-      return `<span class="author" style="cursor: pointer;" onmouseover="this.style.color = '#ccc'" onmouseout="this.style.color = '#fff'" onclick="try { window.goosemod.webpackModules.findByProps('open', 'fetchMutualFriends').open('${idMatch[2]}') } catch (e) { }">${idMatch[1]}</span>`; // todo
+      return `<span class="author" style="cursor: pointer;" onmouseover="this.style.color = '#ccc'" onmouseout="this.style.color = '#fff'" onclick="try { window.hypercord.webpackModules.findByProps('open', 'fetchMutualFriends').open('${idMatch[2]}') } catch (e) { }">${idMatch[1]}</span>`; // todo
     }))).join('<span class="description-3_Ncsb">,</span> ');
   },
 
   updateStoreSetting: async () => {
-    let allItems = goosemodScope.settings.items.filter((x) => x[1] === goosemodScope.i18n.goosemodStrings.settings.itemNames.plugins || x[1] === goosemodScope.i18n.goosemodStrings.settings.itemNames.themes);
+    let allItems = hypercordScope.settings.items.filter((x) => x[1] === hypercordScope.i18n.hypercordStrings.settings.itemNames.plugins || x[1] === hypercordScope.i18n.hypercordStrings.settings.itemNames.themes);
 
     for (const i of allItems) {
       i[2] = i[2].filter((x) => x.type !== 'card');
     }
 
-    for (const m of goosemodScope.moduleStoreAPI.modules) {
-      const itemName = goosemodScope.moduleStoreAPI.getSettingItemName(m);
+    for (const m of hypercordScope.moduleStoreAPI.modules) {
+      const itemName = hypercordScope.moduleStoreAPI.getSettingItemName(m);
       const item = allItems.find((x) => x[1] === itemName);
 
       const type = m.tags.includes('theme') ? 'themes' : 'plugins';
@@ -290,33 +290,33 @@ export default {
         }),
         lastUpdated: m.lastUpdated,
 
-        buttonType: goosemodScope.modules[m.name] || goosemodScope.disabledModules[m.name] ? 'danger' : 'brand',
-        showToggle: goosemodScope.modules[m.name] || goosemodScope.disabledModules[m.name],
+        buttonType: hypercordScope.modules[m.name] || hypercordScope.disabledModules[m.name] ? 'danger' : 'brand',
+        showToggle: hypercordScope.modules[m.name] || hypercordScope.disabledModules[m.name],
 
         name: m.name,
-        author: await goosemodScope.moduleStoreAPI.parseAuthors(m.authors),
+        author: await hypercordScope.moduleStoreAPI.parseAuthors(m.authors),
 
         subtext: m.description,
         subtext2: m.version === '0' || m.version.toLowerCase().includes('auto') ? '' : `v${m.version}`,
 
-        buttonText: goosemodScope.modules[m.name] || goosemodScope.disabledModules[m.name] ? goosemodScope.i18n.discordStrings.REMOVE : goosemodScope.i18n.goosemodStrings.moduleStore.card.button.import,
+        buttonText: hypercordScope.modules[m.name] || hypercordScope.disabledModules[m.name] ? hypercordScope.i18n.discordStrings.REMOVE : hypercordScope.i18n.hypercordStrings.moduleStore.card.button.import,
         onclick: async () => {
-          goosemodScope.settings[`regen${type}`] = true;
+          hypercordScope.settings[`regen${type}`] = true;
 
-          if (goosemodScope.modules[m.name] || goosemodScope.disabledModules[m.name]) {
-            // el.textContent = goosemodScope.i18n.goosemodStrings.moduleStore.card.button.removing;
+          if (hypercordScope.modules[m.name] || hypercordScope.disabledModules[m.name]) {
+            // el.textContent = hypercordScope.i18n.hypercordStrings.moduleStore.card.button.removing;
 
-            goosemodScope.settings.removeModuleUI(m.name, itemName);
+            hypercordScope.settings.removeModuleUI(m.name, itemName);
 
             return;
           }
 
-          // el.textContent = goosemodScope.i18n.goosemodStrings.moduleStore.card.button.importing;
+          // el.textContent = hypercordScope.i18n.hypercordStrings.moduleStore.card.button.importing;
 
           if (m.dependencies && m.dependencies.length > 0) { // If it's the initial (on import) import that means it has been imported before
             const mainWord = m.dependencies.length === 1 ? 'dependency' : 'dependencies';
 
-            const toContinue = await goosemod.confirmDialog('Continue',
+            const toContinue = await hypercord.confirmDialog('Continue',
               `${m.name} has ${m.dependencies.length === 1 ? 'a ' : ''}${mainWord}`,
               `**${m.name}** has **${m.dependencies.length}** ${mainWord}:
 ${m.dependencies.map((x) => ` - **${x}**\n`)}
@@ -327,42 +327,42 @@ To continue importing this module the dependencies need to be imported.`,
             if (!toContinue) return;
 
             for (const d of m.dependencies) {
-              await goosemodScope.moduleStoreAPI.importModule(d);
+              await hypercordScope.moduleStoreAPI.importModule(d);
             }
           }
 
-          await goosemodScope.moduleStoreAPI.importModule(m.name);
+          await hypercordScope.moduleStoreAPI.importModule(m.name);
         },
-        isToggled: () => goosemodScope.disabledModules[m.name] === undefined,
+        isToggled: () => hypercordScope.disabledModules[m.name] === undefined,
         onToggle: async (checked) => {
-          if (goosemodScope.settings.ignoreVisualToggle) {
-            delete goosemodScope.settings.ignoreVisualToggle;
+          if (hypercordScope.settings.ignoreVisualToggle) {
+            delete hypercordScope.settings.ignoreVisualToggle;
             return;
           }
 
-          goosemodScope.settings[`regen${type}`] = true;
+          hypercordScope.settings[`regen${type}`] = true;
 
           if (checked) {
-            goosemodScope.modules[m.name] = Object.assign({}, goosemodScope.disabledModules[m.name]);
-            delete goosemodScope.disabledModules[m.name];
+            hypercordScope.modules[m.name] = Object.assign({}, hypercordScope.disabledModules[m.name]);
+            delete hypercordScope.disabledModules[m.name];
 
-            await goosemodScope.modules[m.name].goosemodHandlers.onImport();
+            await hypercordScope.modules[m.name].hypercordHandlers.onImport();
 
-            if (goosemodScope.modules[m.name].goosemodHandlers.onLoadingFinished !== undefined) {
-              await goosemodScope.modules[m.name].goosemodHandlers.onLoadingFinished();
+            if (hypercordScope.modules[m.name].hypercordHandlers.onLoadingFinished !== undefined) {
+              await hypercordScope.modules[m.name].hypercordHandlers.onLoadingFinished();
             }
 
-            await goosemodScope.moduleSettingsStore.loadSavedModuleSetting(m.name);
+            await hypercordScope.moduleSettingsStore.loadSavedModuleSetting(m.name);
 
-            goosemodScope.moduleSettingsStore.enableModule(m.name);
+            hypercordScope.moduleSettingsStore.enableModule(m.name);
           } else {
-            goosemodScope.disabledModules[m.name] = Object.assign({}, goosemodScope.modules[m.name]);
+            hypercordScope.disabledModules[m.name] = Object.assign({}, hypercordScope.modules[m.name]);
 
-            await goosemodScope.modules[m.name].goosemodHandlers.onRemove();
+            await hypercordScope.modules[m.name].hypercordHandlers.onRemove();
 
-            delete goosemodScope.modules[m.name];
+            delete hypercordScope.modules[m.name];
 
-            goosemodScope.moduleSettingsStore.disableModule(m.name);
+            hypercordScope.moduleSettingsStore.disableModule(m.name);
           }
 
           // If themes / plugins open
@@ -372,7 +372,7 @@ To continue importing this module the dependencies need to be imported.`,
             if (cardEls.length === 0) return;
 
             for (const cardEl of cardEls) {
-              goosemodScope.settings.ignoreVisualToggle = true;
+              hypercordScope.settings.ignoreVisualToggle = true;
 
               const toggleInputEl = cardEl.querySelector('.input-rwLH4i');
               toggleInputEl.click();
@@ -393,21 +393,21 @@ To continue importing this module the dependencies need to be imported.`,
         when: Date.now()
       };
 
-      const storedRepo = goosemodScope.moduleStoreAPI.repos.find((x) => x.url === repo.url);
+      const storedRepo = hypercordScope.moduleStoreAPI.repos.find((x) => x.url === repo.url);
       if (!storedRepo) return pgpObj;
 
       storedRepo.pgp = pgpObj;
 
       if (result === 'verified') storedRepo.oncePgp = true; // Mark repo as once having PGP as if it doesn't in future it should be flagged
 
-      goosemod.logger.debug('pgp.save', storedRepo);
+      hypercord.logger.debug('pgp.save', storedRepo);
 
-      goosemod.storage.set('goosemodRepos', JSON.stringify(goosemodScope.moduleStoreAPI.repos));
+      hypercord.storage.set('hypercordRepos', JSON.stringify(hypercordScope.moduleStoreAPI.repos));
 
       return storedRepo.pgp;
     };
 
-    goosemod.logger.debug('pgp', 'verifying repo:', repo.meta.name);
+    hypercord.logger.debug('pgp', 'verifying repo:', repo.meta.name);
 
     const get = async (url) => {
       const req = await fetch(url + '?_=' + Date.now()); // Add query to prevent caching
@@ -417,15 +417,15 @@ To continue importing this module the dependencies need to be imported.`,
       return await req.text();
     };
 
-    const publicKey = await get(`https://goosemod.github.io/Keyserver/repos/${repo.meta.name}.gpg`);
+    const publicKey = await get(`https://hypercord.github.io/Keyserver/repos/${repo.meta.name}.gpg`);
     if (!publicKey) {
-      goosemod.logger.debug('pgp', 'no public key, aborting');
+      hypercord.logger.debug('pgp', 'no public key, aborting');
       return setInRepo('no_public_key');
     }
 
     const signature = await get(repo.url + '.sig');
     if (!signature) {
-      goosemod.logger.debug('pgp', 'no signature, aborting');
+      hypercord.logger.debug('pgp', 'no signature, aborting');
       return setInRepo('no_signature');
     }
 

@@ -1,14 +1,14 @@
 import _Divider from './divider';
 
 export default () => {
-const { React, constants: { DEFAULT_ROLE_COLOR, ROLE_COLORS } } = goosemod.webpackModules.common;
+const { React, constants: { DEFAULT_ROLE_COLOR, ROLE_COLORS } } = hypercord.webpackModules.common;
 
 const Divider = _Divider();
-const FormItem = goosemod.webpackModules.findByDisplayName('FormItem');
-const FormTitle = goosemod.webpackModules.findByDisplayName('FormTitle');
+const FormItem = hypercord.webpackModules.findByDisplayName('FormItem');
+const FormTitle = hypercord.webpackModules.findByDisplayName('FormTitle');
 
-const Margins = goosemod.webpackModules.findByProps('marginTop20', 'marginBottom20');
-const TitleClasses = goosemod.webpackModules.findByProps('defaultMarginh5');
+const Margins = hypercord.webpackModules.findByProps('marginTop20', 'marginBottom20');
+const TitleClasses = hypercord.webpackModules.findByProps('defaultMarginh5');
 
 const colorToHexString = (dColor) => {
   const r = ((dColor & 0xff0000) >>> 16).toString(16).padStart(2, '0');
@@ -33,7 +33,7 @@ return class TextAndColor extends React.PureComponent {
   }
 
   render() {
-    const ColorPicker = goosemod.webpackModules.find((x) => x.default?.displayName === 'ColorPicker');
+    const ColorPicker = hypercord.webpackModules.find((x) => x.default?.displayName === 'ColorPicker');
 
     return React.createElement(FormItem, {
         className: [Margins.marginBottom20].join(' '),

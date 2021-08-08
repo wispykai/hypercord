@@ -12,7 +12,7 @@ import showToast from './ui/toast';
 import * as confirmDialog from './ui/modals/confirm';
 
 import * as Changelog from './ui/modals/changelog';
-import * as GoosemodChangelog from './ui/goosemodChangelog';
+import * as hypercordChangelog from './ui/hypercordChangelog';
 
 import * as PackModal from './ui/packModal';
 import * as OOTB from './ui/ootb';
@@ -45,7 +45,7 @@ const scopeSetterFncs = [
   moduleStoreAPI.setThisScope,
 
   Changelog.setThisScope,
-  GoosemodChangelog.setThisScope,
+  hypercordChangelog.setThisScope,
 
   PackModal.setThisScope,
   Patcher.setThisScope,
@@ -79,7 +79,7 @@ const importsToAssign = {
   moduleStoreAPI,
 
   changelog: Changelog,
-  goosemodChangelog: GoosemodChangelog,
+  hypercordChangelog: hypercordChangelog,
 
   packModal: PackModal,
 
@@ -114,14 +114,14 @@ const init = async function () {
     version: `11.0`,
     hash: '<hash>', // Hash of built final js file is inserted here via build script
 
-    lastUsedVersion: this.storage.get('goosemodLastVersion')
+    lastUsedVersion: this.storage.get('hypercordLastVersion')
   };
 
   this.versioning.isDeveloperBuild = this.versioning.hash === '<hash>';
 
-  this.storage.set('goosemodLastVersion', this.versioning.version);
+  this.storage.set('hypercordLastVersion', this.versioning.version);
 
-  this.logger.debug('import.version.goosemod', `${this.versioning.version} (${this.versioning.hash})`);
+  this.logger.debug('import.version.hypercord', `${this.versioning.version} (${this.versioning.hash})`);
 
   if (window.DiscordNative !== undefined) this.logger.debug('import.version.discord', `${DiscordNative.app.getReleaseChannel()} ${DiscordNative.app.getVersion()}`);
   
@@ -130,7 +130,7 @@ const init = async function () {
   }
 
   if (this.versioning.lastUsedVersion && this.versioning.version !== this.versioning.lastUsedVersion) {
-    this.goosemodChangelog.show(); // Show changelog if last GooseMod version is different than this version
+    this.hypercordChangelog.show(); // Show changelog if last hypercord version is different than this version
   }
 
   this.startLoadingScreen();
@@ -140,22 +140,22 @@ const init = async function () {
 
   this.updateLoadingScreen('Initialising internals...');
 
-  let toInstallModules = Object.keys(JSON.parse(this.storage.get('goosemodModules')) || {});
-  let disabledModules = Object.keys(JSON.parse(this.storage.get('goosemodDisabled')) || {});
+  let toInstallModules = Object.keys(JSON.parse(this.storage.get('hypercordModules')) || {});
+  let disabledModules = Object.keys(JSON.parse(this.storage.get('hypercordDisabled')) || {});
 
-  this.modules = toInstallModules.filter((x) => disabledModules.indexOf(x) === -1).reduce((acc, v) => { acc[v] = { goosemodHandlers: { } }; return acc; }, {});
-  this.disabledModules = toInstallModules.filter((x) => disabledModules.indexOf(x) !== -1).reduce((acc, v) => { acc[v] = { goosemodHandlers: { } }; return acc; }, {});
+  this.modules = toInstallModules.filter((x) => disabledModules.indexOf(x) === -1).reduce((acc, v) => { acc[v] = { hypercordHandlers: { } }; return acc; }, {});
+  this.disabledModules = toInstallModules.filter((x) => disabledModules.indexOf(x) !== -1).reduce((acc, v) => { acc[v] = { hypercordHandlers: { } }; return acc; }, {});
 
-  this.moduleStoreAPI.modules = JSON.parse(this.storage.get('goosemodCachedModules')) || [];
+  this.moduleStoreAPI.modules = JSON.parse(this.storage.get('hypercordCachedModules')) || [];
   this.moduleStoreAPI.modules.cached = true;
   
-  this.settings.makeGooseModSettings();
+  this.settings.makehypercordSettings();
 
   await this.moduleStoreAPI.initRepos();
 
   this.removed = false;
 
-  if (!this.storage.get('goosemodCachedModules')) { // If not cached, fetch latest repos
+  if (!this.storage.get('hypercordCachedModules')) { // If not cached, fetch latest repos
     await this.moduleStoreAPI.updateModules(true);
   }
 
@@ -213,14 +213,14 @@ const init = async function () {
     clearInterval(this.i18nCheckNewLangInterval);
     clearInterval(this.hotupdateInterval);
     
-    this.storage.keys().filter((x) => x.toLowerCase().startsWith('goosemod')).forEach((x) => this.storage.remove(x));
+    this.storage.keys().filter((x) => x.toLowerCase().startsWith('hypercord')).forEach((x) => this.storage.remove(x));
     
     this.removed = true;
     
     for (let p in this.modules) {
-      if (this.modules.hasOwnProperty(p) && this.modules[p].goosemodHandlers.onRemove !== undefined) {
+      if (this.modules.hasOwnProperty(p) && this.modules[p].hypercordHandlers.onRemove !== undefined) {
         try {
-          this.modules[p].goosemodHandlers.onRemove();
+          this.modules[p].hypercordHandlers.onRemove();
         } catch (e) { }
       }
     }
@@ -237,11 +237,11 @@ const init = async function () {
   
   this.stopLoadingScreen();
   
-  if (this.settings.isSettingsOpen()) { // If settings are open, reopen to inject new GooseMod options
+  if (this.settings.isSettingsOpen()) { // If settings are open, reopen to inject new hypercord options
     this.settings.reopenSettings();
   }
 
-  if (!this.storage.get('goosemodOOTB')) { // First time install
+  if (!this.storage.get('hypercordOOTB')) { // First time install
     await sleep(1000); // Wait for slowdown / Discord loading to ease
 
     while (document.querySelector('.modal-3O0aXp')) { // Wait for modals to close (GM changelog, etc)
@@ -250,12 +250,12 @@ const init = async function () {
 
     this.ootb.start();
 
-    this.storage.set('goosemodOOTB', true);
+    this.storage.set('hypercordOOTB', true);
   }
 
 
   ProfileStoreInit();
 };
 
-window.goosemod = {};
-init.bind(window.goosemod)();
+window.hypercord = {};
+init.bind(window.hypercord)();

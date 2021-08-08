@@ -5,14 +5,14 @@ import sleep from '../sleep';
 
 export let notices = [];
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 let updateCall;
 
 export const setThisScope = async (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 
-  const BaseClasses = goosemodScope.webpackModules.findByProps('base', 'sidebar');
+  const BaseClasses = hypercordScope.webpackModules.findByProps('base', 'sidebar');
 
   while (document.getElementsByClassName(BaseClasses.base)[0] === undefined) {
     await sleep(10);
@@ -20,7 +20,7 @@ export const setThisScope = async (scope) => {
   
   const baseOwnerInstance = getOwnerInstance(document.getElementsByClassName(BaseClasses.base)[0]);
 
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
   class NoticeContainer extends React.PureComponent {
     constructor (props) {
@@ -53,17 +53,17 @@ export const setThisScope = async (scope) => {
 
 
 export const patch = (content, buttonText, clickHandler, colorKey = 'brand') => {
-  const NoticeColors = goosemodScope.webpackModules.findByProps('colorDanger', 'notice');
+  const NoticeColors = hypercordScope.webpackModules.findByProps('colorDanger', 'notice');
   const color = NoticeColors[`color${colorKey[0].toUpperCase() + colorKey.substring(1).toLowerCase()}`];
 
-  const Notice = goosemodScope.webpackModules.findByProps('NoticeCloseButton', 'NoticeButton');
+  const Notice = hypercordScope.webpackModules.findByProps('NoticeCloseButton', 'NoticeButton');
 
-  const { React } = goosemodScope.webpackModules.common;
+  const { React } = hypercordScope.webpackModules.common;
 
   const id = PatcherBase.generateId();
 
   const el = React.createElement(Notice.default, {
-      class: 'goosemod-notice',
+      class: 'hypercord-notice',
       id,
       color
     },

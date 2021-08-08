@@ -1,81 +1,81 @@
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 
 export const disableModule = (name) => {
-  let settings = JSON.parse(goosemod.storage.get('goosemodDisabled')) || {};
+  let settings = JSON.parse(hypercord.storage.get('hypercordDisabled')) || {};
 
   settings[name] = true;
 
-  goosemod.storage.set('goosemodDisabled', JSON.stringify(settings));
+  hypercord.storage.set('hypercordDisabled', JSON.stringify(settings));
 };
 
 export const enableModule = (name) => {
-  let settings = JSON.parse(goosemod.storage.get('goosemodDisabled')) || {};
+  let settings = JSON.parse(hypercord.storage.get('hypercordDisabled')) || {};
 
   delete settings[name];
 
-  goosemod.storage.set('goosemodDisabled', JSON.stringify(settings));
+  hypercord.storage.set('hypercordDisabled', JSON.stringify(settings));
 };
 
 export const checkDisabled = (name) => {
-  return Object.keys(JSON.parse(goosemod.storage.get('goosemodDisabled')) || {}).includes(name);
+  return Object.keys(JSON.parse(hypercord.storage.get('hypercordDisabled')) || {}).includes(name);
 };
 
 
 export const saveModuleSettings = async () => {
-  //goosemodScope.logger.debug('settings', 'Saving module settings...');
+  //hypercordScope.logger.debug('settings', 'Saving module settings...');
 
-  let settings = JSON.parse(goosemod.storage.get('goosemodModules')) || {};
+  let settings = JSON.parse(hypercord.storage.get('hypercordModules')) || {};
 
-  for (let p in goosemodScope.modules) {
-    if (goosemodScope.modules.hasOwnProperty(p)) {
-      settings[p] = await (goosemodScope.modules[p].goosemodHandlers.getSettings || (async () => []))();
+  for (let p in hypercordScope.modules) {
+    if (hypercordScope.modules.hasOwnProperty(p)) {
+      settings[p] = await (hypercordScope.modules[p].hypercordHandlers.getSettings || (async () => []))();
     }
   }
 
-  if (JSON.stringify(JSON.parse(goosemod.storage.get('goosemodModules'))) !== JSON.stringify(settings)) {
-    goosemod.storage.set('goosemodModules', JSON.stringify(settings));
+  if (JSON.stringify(JSON.parse(hypercord.storage.get('hypercordModules'))) !== JSON.stringify(settings)) {
+    hypercord.storage.set('hypercordModules', JSON.stringify(settings));
 
-    // goosemodScope.showToast('Settings saved');
+    // hypercordScope.showToast('Settings saved');
   }
 };
 
 export const clearModuleSetting = (moduleName) => {
-  let settings = JSON.parse(goosemod.storage.get('goosemodModules'));
+  let settings = JSON.parse(hypercord.storage.get('hypercordModules'));
 
   if (!settings || !settings[moduleName]) return;
 
   delete settings[moduleName];
 
-  goosemod.storage.set('goosemodModules', JSON.stringify(settings));
+  hypercord.storage.set('hypercordModules', JSON.stringify(settings));
 };
 
 export const clearSettings = () => {
-  goosemod.storage.remove('goosemodModules');
+  hypercord.storage.remove('hypercordModules');
 };
 
 export const loadSavedModuleSetting = async (moduleName) => {
-  let settings = JSON.parse(goosemod.storage.get('goosemodModules'));
+  let settings = JSON.parse(hypercord.storage.get('hypercordModules'));
 
   if (!settings || !settings[moduleName]) return;
 
-  await (goosemodScope.modules[moduleName].goosemodHandlers.loadSettings || (async () => []))(settings[moduleName]);
+  await (hypercordScope.modules[moduleName].hypercordHandlers.loadSettings || (async () => []))(settings[moduleName]);
 };
 
 /* export const loadSavedModuleSettings = async () => {
-  //goosemodScope.logger.debug('settings', 'Loading module settings...');
+  //hypercordScope.logger.debug('settings', 'Loading module settings...');
 
-  let settings = JSON.parse(goosemod.storage.get('goosemodModules'));
+  let settings = JSON.parse(hypercord.storage.get('hypercordModules'));
 
   if (!settings) return;
 
-  for (let p in goosemodScope.modules) {
-    if (goosemodScope.modules.hasOwnProperty(p) && settings.hasOwnProperty(p)) {
-      await (goosemodScope.modules[p].goosemodHandlers.loadSettings || (async () => []))(settings[p]);
+  for (let p in hypercordScope.modules) {
+    if (hypercordScope.modules.hasOwnProperty(p) && settings.hasOwnProperty(p)) {
+      await (hypercordScope.modules[p].hypercordßHandlers.loadSettings || (async () => []))(settings[p]);
     }
   }
 

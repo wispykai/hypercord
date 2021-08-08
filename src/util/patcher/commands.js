@@ -1,13 +1,13 @@
-let goosemodScope = {};
+let hypercordScope = {};
 let Commands;
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 
-  Commands = goosemodScope.webpackModules.findByProps('BUILT_IN_COMMANDS', 'BUILT_IN_SECTIONS');
-  const Hook = goosemodScope.webpackModules.findByProps('useApplicationCommandsDiscoveryState');
+  Commands = hypercordScope.webpackModules.findByProps('BUILT_IN_COMMANDS', 'BUILT_IN_SECTIONS');
+  const Hook = hypercordScope.webpackModules.findByProps('useApplicationCommandsDiscoveryState');
 
-  goosemodScope.patcher.patch(Hook, 'useApplicationCommandsDiscoveryState', (_, res) => {
+  hypercordScope.patcher.patch(Hook, 'useApplicationCommandsDiscoveryState', (_, res) => {
     if (res.applicationCommandSections.find((x) => x.id === applicationId)) return; // Don't add if already added
 
     const gmCommands = res.commands.filter((x, i) => x.applicationId === applicationId && res.commands.indexOf(x) === i);
@@ -35,12 +35,12 @@ const hasSection = (id) => !!Commands.BUILT_IN_SECTIONS[id];
 export const add = (name, description, execute, options = []) => {
   const mod = Commands;
 
-  if (!hasSection(applicationId)) { // If no GooseMod section, create it
+  if (!hasSection(applicationId)) { // If no hypercord section, create it
     addSection({
       id: applicationId,
       icon: '7f274cc3c1216505238ce047ce6e35e9', // Avatar file name for application
 
-      name: 'GooseMod',
+      name: 'hypercord',
       type: 1
     });
   }
@@ -65,9 +65,9 @@ export const remove = (name) => {
 
   mod.BUILT_IN_COMMANDS = mod.BUILT_IN_COMMANDS.filter(x => x.name !== name); // Filter out commands with given name
 
-  const gmCommands = mod.BUILT_IN_COMMANDS.filter(x => x.applicationId === applicationId); // Find GooseMod commands via applicationId
+  const gmCommands = mod.BUILT_IN_COMMANDS.filter(x => x.applicationId === applicationId); // Find hypercord commands via applicationId
 
-  if (gmCommands.length === 0) { // If there is currently no GooseMod commands, remove the section
+  if (gmCommands.length === 0) { // If there is currently no hypercord commands, remove the section
     removeSection(applicationId);
   }
 };

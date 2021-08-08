@@ -1,23 +1,23 @@
 import * as Cache from './cache';
 export const cache = Cache;
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export let forced = false;
 
-export let goosemodStrings; // goosemod.i18n.strings
+export let hypercordStrings; // hypercord.i18n.strings
 export let discordStrings;
 
 
 export const setThisScope = (scope) => {
   Cache.setThisScope(scope);
 
-  goosemodScope = scope;
+  hypercordScope = scope;
 
-  goosemodScope.i18nCheckNewLangInterval = setInterval(checkForNewLang, 1000);
+  hypercordScope.i18nCheckNewLangInterval = setInterval(checkForNewLang, 1000);
 };
 
-const getDiscordLang = () => goosemodScope.webpackModules.findByProps('getLocaleInfo').getLocaleInfo();
+const getDiscordLang = () => hypercordScope.webpackModules.findByProps('getLocaleInfo').getLocaleInfo();
 
 let lastLangCode;
 
@@ -28,7 +28,7 @@ export const checkForNewLang = async () => {
 
   if (code === lastLangCode) return; // Lang not changed
 
-  // goosemodScope.showToast(`New lang detected`);
+  // hypercordScope.showToast(`New lang detected`);
 
   await updateExports(code);
 };
@@ -36,9 +36,9 @@ export const checkForNewLang = async () => {
 export const updateExports = async (code) => {
   lastLangCode = code;
 
-  goosemodStrings = await Cache.geti18nData(code);
+  hypercordStrings = await Cache.geti18nData(code);
 
-  const module = goosemodScope.webpackModules.findByProps('getLocaleInfo');
+  const module = hypercordScope.webpackModules.findByProps('getLocaleInfo');
 
   const context = module._proxyContext || module._provider._context; // _proxyContext is old, not in Canary since 12th July
 
@@ -52,13 +52,13 @@ export const geti18nData = async (lang = (getDiscordLang().code)) => {
   let json; // Undefined by default
 
   try {
-    json = await (await fetch(`https://raw.githubusercontent.com/GooseMod/i18n/main/langs/${lang}.json`)).json();
+    json = await (await fetch(`https://raw.githubusercontent.com/hypercord/i18n/main/langs/${lang}.json`)).json();
   } catch (e) { // Likely no translation for language so fallback to en-US
     lang = `en-US`;
 
-    console.log(`Failed to get GooseMod i18n data, falling back to ${lang}`, e);
+    console.log(`Failed to get hypercord i18n data, falling back to ${lang}`, e);
 
-    json = await (await fetch(`https://raw.githubusercontent.com/GooseMod/i18n/main/langs/${lang}.json`)).json();
+    json = await (await fetch(`https://raw.githubusercontent.com/hypercord/i18n/main/langs/${lang}.json`)).json();
   }
 
   return json;

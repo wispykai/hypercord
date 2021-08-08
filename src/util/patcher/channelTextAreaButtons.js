@@ -1,22 +1,22 @@
 import * as PatcherBase from './base';
 import { findInReactTree } from '../react';
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const patch = (tooltipText, imgSrc, clickHandler, { inUpload = false, inReadonlyChannels = false } = {}) => {
-  const { React } = goosemodScope.webpackModules.common;
-  const Tooltip = goosemodScope.webpackModules.findByDisplayName('Tooltip');
-  const Button = goosemodScope.webpackModules.findByProps('Looks', 'DropdownSizes');
+  const { React } = hypercordScope.webpackModules.common;
+  const Tooltip = hypercordScope.webpackModules.findByDisplayName('Tooltip');
+  const Button = hypercordScope.webpackModules.findByProps('Looks', 'DropdownSizes');
 
-  const buttonClasses = goosemodScope.webpackModules.findByProps('button');
-  const buttonWrapperClasses = goosemodScope.webpackModules.findByProps('buttonWrapper', 'pulseButton');
-  const buttonTextAreaClasses = goosemodScope.webpackModules.findByProps('button', 'textArea');
+  const buttonClasses = hypercordScope.webpackModules.findByProps('button');
+  const buttonWrapperClasses = hypercordScope.webpackModules.findByProps('buttonWrapper', 'pulseButton');
+  const buttonTextAreaClasses = hypercordScope.webpackModules.findByProps('button', 'textArea');
 
-  const ChannelTextAreaContainer = goosemodScope.webpackModules.find(m => m.type && m.type.render && m.type.render.displayName === 'ChannelTextAreaContainer');
+  const ChannelTextAreaContainer = hypercordScope.webpackModules.find(m => m.type && m.type.render && m.type.render.displayName === 'ChannelTextAreaContainer');
 
   return PatcherBase.patch(ChannelTextAreaContainer.type, 'render', (_args, res) => {
     const props = findInReactTree(res, (r) => r && r.className && r.className.indexOf("buttons-") === 0);

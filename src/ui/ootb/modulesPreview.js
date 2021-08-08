@@ -1,7 +1,7 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const DiscoverStaticGuildCard = goosemod.webpackModules.findByDisplayName('DiscoverStaticGuildCard');
+const DiscoverStaticGuildCard = hypercord.webpackModules.findByDisplayName('DiscoverStaticGuildCard');
 
 const baseImages = (m) => m.images?.map((x) => {
   if (x.startsWith('/')) {

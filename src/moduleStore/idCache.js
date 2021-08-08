@@ -2,16 +2,16 @@ import sleep from '../util/sleep';
 
 const currentDate = new Date() - 0;
 
-let goosemodScope = {};
+let hypercordScope = {};
 
 let getUser;
 
 let queueProcessInterval;
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 
-  getUser = goosemodScope.webpackModules.findByProps('getUser', 'fetchCurrentUser').getUser;
+  getUser = hypercordScope.webpackModules.findByProps('getUser', 'fetchCurrentUser').getUser;
 };
 
 const queue = [], queueReturns = [];
@@ -29,8 +29,8 @@ const processQueue = async () => {
   queueReturns.push(await getUser(id));
 };
 
-export const getCache = () => JSON.parse(goosemod.storage.get('goosemodIDCache') || '{}');
-export const purgeCache = () => goosemod.storage.remove('goosemodIDCache');
+export const getCache = () => JSON.parse(hypercord.storage.get('hypercordIDCache') || '{}');
+export const purgeCache = () => hypercord.storage.remove('hypercordIDCache');
 
 export const updateCache = (id, data) => {
   let cache = getCache();
@@ -40,7 +40,7 @@ export const updateCache = (id, data) => {
     time: currentDate
   };
 
-  goosemod.storage.set('goosemodIDCache', JSON.stringify(cache));
+  hypercord.storage.set('hypercordIDCache', JSON.stringify(cache));
 };
 
 export const getDataForID = async (id) => {

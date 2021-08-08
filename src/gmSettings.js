@@ -20,7 +20,7 @@ export const get = () => {
   // Cache as this function is called frequently
   if (cache) return cache;
   
-  cache = JSON.parse(goosemod.storage.get('goosemodGMSettings')) || defaultSettings;
+  cache = JSON.parse(hypercord.storage.get('hypercordGMSettings')) || defaultSettings;
 
   cache = {
     ...defaultSettings,
@@ -35,7 +35,7 @@ export const set = (key, value) => {
 
   settings[key] = value;
 
-  goosemod.storage.set('goosemodGMSettings', JSON.stringify(settings));
+  hypercord.storage.set('hypercordGMSettings', JSON.stringify(settings));
 
   cache = settings; // Set cache to new value
 };

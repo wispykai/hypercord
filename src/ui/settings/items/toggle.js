@@ -1,13 +1,13 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const SwitchItem = goosemod.webpackModules.findByDisplayName('SwitchItem');
+const SwitchItem = hypercord.webpackModules.findByDisplayName('SwitchItem');
 
-const Markdown = goosemod.webpackModules.findByDisplayName('Markdown');
+const Markdown = hypercord.webpackModules.findByDisplayName('Markdown');
 
-const Tooltip = goosemod.webpackModules.findByDisplayName('Tooltip');
-const Science = goosemod.webpackModules.findByDisplayName('Science');
-const Alert = goosemod.webpackModules.findByDisplayName('InfoFilled');
+const Tooltip = hypercord.webpackModules.findByDisplayName('Tooltip');
+const Science = hypercord.webpackModules.findByDisplayName('Science');
+const Alert = hypercord.webpackModules.findByDisplayName('InfoFilled');
 
 
 return class Toggle extends React.Component {

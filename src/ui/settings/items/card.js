@@ -1,19 +1,19 @@
 export default () => {
-const { React } = goosemod.webpackModules.common;
+const { React } = hypercord.webpackModules.common;
 
-const Button = goosemod.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
-const Switch = goosemod.webpackModules.findByDisplayName('Switch');
+const Button = hypercord.webpackModules.findByProps('Sizes', 'Colors', 'Looks', 'DropdownSizes');
+const Switch = hypercord.webpackModules.findByDisplayName('Switch');
 
-const Markdown = goosemod.webpackModules.findByDisplayName('Markdown');
-const FormText = goosemod.webpackModules.findByDisplayName('FormText');
+const Markdown = hypercord.webpackModules.findByDisplayName('Markdown');
+const FormText = hypercord.webpackModules.findByDisplayName('FormText');
 
-const FormTextClasses = goosemod.webpackModules.findByProps('formText', 'placeholder');
-const FormClasses = goosemod.webpackModules.findByProps('title', 'dividerDefault');
+const FormTextClasses = hypercord.webpackModules.findByProps('formText', 'placeholder');
+const FormClasses = hypercord.webpackModules.findByProps('title', 'dividerDefault');
 
-const ModalHandler = goosemod.webpackModules.findByProps('openModal');
-const SmallMediaCarousel = goosemod.webpackModules.findByDisplayName('SmallMediaCarousel');
+const ModalHandler = hypercord.webpackModules.findByProps('openModal');
+const SmallMediaCarousel = hypercord.webpackModules.findByDisplayName('SmallMediaCarousel');
 
-const Discord = goosemod.webpackModules.findByDisplayName('Discord');
+const Discord = hypercord.webpackModules.findByDisplayName('Discord');
 
 
 return class Card extends React.PureComponent {
@@ -131,8 +131,8 @@ return class Card extends React.PureComponent {
           size: Button.Sizes.SMALL,
 
           onClick: () => {
-            const { transitionTo } = goosemod.webpackModules.findByProps('transitionTo');
-            const { jumpToMessage } = goosemod.webpackModules.findByProps('jumpToMessage');
+            const { transitionTo } = hypercord.webpackModules.findByProps('transitionTo');
+            const { jumpToMessage } = hypercord.webpackModules.findByProps('jumpToMessage');
 
             transitionTo(`/channels/${this.props.discordMessage.guild}/${this.props.discordMessage.channel}`);
             jumpToMessage({ channelId: this.props.discordMessage.channel, messageId: this.props.discordMessage.message, flash: true });

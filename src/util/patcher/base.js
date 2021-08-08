@@ -73,7 +73,7 @@ const generateNewFunction = (originalFunction, id, functionName, keyName) => (fu
 
   if (harden) {
     if (!GMErrorBoundary) GMErrorBoundary = _GMErrorBoundary();
-    const { React } = goosemod.webpackModules.common;
+    const { React } = hypercord.webpackModules.common;
 
     return React.createElement(GMErrorBoundary, {}, toReturn);
   }
@@ -82,15 +82,15 @@ const generateNewFunction = (originalFunction, id, functionName, keyName) => (fu
 });
 
 export const patch = (parent, functionName, handler, before = false) => {
-  if (!parent._goosemodPatcherId) {
+  if (!parent._hypercordPatcherId) {
     const id = generateId();
 
-    parent._goosemodPatcherId = id;
+    parent._hypercordPatcherId = id;
 
     modIndex[id] = {};
   }
 
-  const id = parent._goosemodPatcherId;
+  const id = parent._hypercordPatcherId;
   const keyName = `gm-${functionName}`;
 
   if (!modIndex[id][keyName]) {
@@ -125,7 +125,7 @@ export const patch = (parent, functionName, handler, before = false) => {
   };
 };
 
-// DEPRECATED: Compatibility functions for modules from older (<5.8.0) GooseMod versions
+// DEPRECATED: Compatibility functions for modules from older (<5.8.0) hypercord versions
 const uninjectors = {};
 
 export const inject = (_id, parent, functionName, handler, before = false) => {

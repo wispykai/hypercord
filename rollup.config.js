@@ -4,7 +4,7 @@ import serve from 'rollup-plugin-serve';
 
 const prod = !process.env.ROLLUP_WATCH;
 
-import goosemod from './building/rollup-plugin-gm/index';
+import hypercord from './building/rollup-plugin-gm/index';
 
 
 export default {
@@ -13,7 +13,7 @@ export default {
   output: {
     file: './dist/index.js',
     format: 'iife',
-    name: 'goosemod',
+    name: 'hypercord',
     sourcemap: false,
 
     freeze: false /* do not freeze exports */
@@ -31,7 +31,7 @@ export default {
       }
     }),
 
-    goosemod()
+    hypercord()
   ],
 
   // fix rollup jank

@@ -391,7 +391,7 @@ export default () => {
   margin-right: 22px;
 
   border-radius: 50%;
-  background-image: url("https://goosemod.com/img/goose_glitch.jpg");
+  background-image: url("https://files.catbox.moe/jzb4v2.png");
 }
 
 .gm-error-boundary > :first-child > :nth-child(2) {

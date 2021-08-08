@@ -1,13 +1,13 @@
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 export const show = (buttonText, title, description, cancelText = undefined, confirmButtonColor = undefined) => {
   return new Promise((res) => {
-    const { React } = goosemodScope.webpackModules.common;
-    const { findByDisplayName, findByProps } = goosemodScope.webpackModules;
+    const { React } = hypercordScope.webpackModules.common;
+    const { findByDisplayName, findByProps } = hypercordScope.webpackModules;
     
     const Text = findByDisplayName("Text");
     const Markdown = findByDisplayName('Markdown');

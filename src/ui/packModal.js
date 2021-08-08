@@ -1,7 +1,7 @@
-let goosemodScope = {};
+let hypercordScope = {};
 
 export const setThisScope = (scope) => {
-  goosemodScope = scope;
+  hypercordScope = scope;
 };
 
 let themes = [
@@ -42,7 +42,7 @@ packs = packs.map((x) => {
 
 const selectionModal = (title, options) => {
   return new Promise((res) => {
-    goosemodScope.webpackModules.findByPropsAll('show')[0].show({
+    hypercordScope.webpackModules.findByPropsAll('show')[0].show({
       title,
       
       body: 'Body'
@@ -119,7 +119,7 @@ const selectionModal = (title, options) => {
       minorTextEl.style.textAlign = 'center';
       minorTextEl.style.opacity = '.6';
       
-      minorTextEl.textContent = p.subtext; // `${packs[p].length} modules`; //packs[p].map((x) => goosemodScope.moduleStoreAPI.modules.find((y) => y.filename === x)).map((x) => x.name).join(', ');
+      minorTextEl.textContent = p.subtext; // `${packs[p].length} modules`; //packs[p].map((x) => hypercordScope.moduleStoreAPI.modules.find((y) => y.filename === x)).map((x) => x.name).join(', ');
       
       minorEl.appendChild(minorTextEl);
       
@@ -134,24 +134,24 @@ const selectionModal = (title, options) => {
 
 const installModules = async (modules) => {
   for (let m of modules) {
-    goosemodScope.updateLoadingScreen(`${goosemodScope.moduleStoreAPI.modules.find((x) => x.name === m).name} - ${modules.indexOf(m) + 1}/${modules.length}`);
+    hypercordScope.updateLoadingScreen(`${hypercordScope.moduleStoreAPI.modules.find((x) => x.name === m).name} - ${modules.indexOf(m) + 1}/${modules.length}`);
 
-    await goosemodScope.moduleStoreAPI.importModule(m);
+    await hypercordScope.moduleStoreAPI.importModule(m);
   }
 };
 
 export const ask = () => {
   return new Promise(async (res) => {
-    goosemodScope.stopLoadingScreen();
+    hypercordScope.stopLoadingScreen();
 
     let packModules = (await selectionModal('Please pick a pack', packs)).modules;
 
-    goosemodScope.startLoadingScreen();
+    hypercordScope.startLoadingScreen();
 
     await installModules(packModules);
 
     let themesOptions = themes.map((x) => {
-      let mod = goosemodScope.moduleStoreAPI.modules.find((y) => y.name === x);
+      let mod = hypercordScope.moduleStoreAPI.modules.find((y) => y.name === x);
 
       // let imported;
 
@@ -169,15 +169,15 @@ export const ask = () => {
           backdropEl.style.transition = 'opacity 1s';
           backdropEl.style.opacity = '0';
 
-          await goosemodScope.moduleStoreAPI.importModule(mod.name);
+          await hypercordScope.moduleStoreAPI.importModule(mod.name);
         },
         onmouseleave: function(container) {
           container.style.opacity = '1';
           document.getElementsByClassName('backdrop-1wrmKB')[0].style.opacity = '0.85';
 
-          if (!goosemodScope.modules[mod.name]) return;
+          if (!hypercordScope.modules[mod.name]) return;
 
-          goosemodScope.settings.removeModuleUI(mod.name);
+          hypercordScope.settings.removeModuleUI(mod.name);
         }
       };
     });
@@ -188,7 +188,7 @@ export const ask = () => {
       actual: ''
     });
 
-    goosemodScope.stopLoadingScreen();
+    hypercordScope.stopLoadingScreen();
 
     const theme = (await selectionModal('Please pick a theme', themesOptions)).actual;
 
@@ -198,7 +198,7 @@ export const ask = () => {
       e.remove();
     }
 
-    goosemodScope.startLoadingScreen();
+    hypercordScope.startLoadingScreen();
 
     if (theme) {
       await installModules([theme]);
